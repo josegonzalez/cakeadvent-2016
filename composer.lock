@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1d5a3c27220f053960052e40b12ef73c",
-    "content-hash": "78b672902a5981fab3dd89b8d833421c",
+    "hash": "b243d137d94d0a503ec2b2a9ed2e4d1f",
+    "content-hash": "3b2b4fc50588b034612b92dfbe076ae8",
     "packages": [
         {
             "name": "airbrake/phpbrake",
@@ -568,6 +568,59 @@
                 "update"
             ],
             "time": "2016-08-27 12:26:00"
+        },
+        {
+            "name": "friendsofcake/crud-users",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfCake/crud-users.git",
+                "reference": "8849a9814314bb8b96dc275f5ea1e57779acf070"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfCake/crud-users/zipball/8849a9814314bb8b96dc275f5ea1e57779acf070",
+                "reference": "8849a9814314bb8b96dc275f5ea1e57779acf070",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.0",
+                "friendsofcake/crud": "~4.0"
+            },
+            "require-dev": {
+                "friendsofcake/cakephp-test-utilities": "dev-master",
+                "phpunit/phpunit": "*"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CrudUsers\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ADmad",
+                    "homepage": "https://github.com/ADmad",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "Jad Bitar",
+                    "homepage": "http://jadb.io/",
+                    "role": "Author"
+                }
+            ],
+            "description": "Adds basic users support to CakePHP 3 applications that use the Crud plugin.",
+            "homepage": "https://github.com/FriendsOfCake/crud-users",
+            "keywords": [
+                "Users",
+                "cakephp",
+                "crud"
+            ],
+            "time": "2016-11-22 06:04:21"
         },
         {
             "name": "friendsofcake/crud-view",

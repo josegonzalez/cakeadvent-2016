@@ -27,7 +27,8 @@
         "josegonzalez/cakephp-upload": "3.*",
         "josegonzalez/cakephp-queuesadilla": "0.3.*",
         "josegonzalez/queuesadilla": "*",
-        "josegonzalez/php-error-handlers": "0.*"
+        "josegonzalez/php-error-handlers": "0.*",
+        "friendsofcake/crud-users": "^0.3.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",
