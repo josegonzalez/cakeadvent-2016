@@ -19,6 +19,8 @@ use Cake\ORM\Entity;
 class User extends Entity
 {
 
+    use \App\Model\Entity\PasswordHashingTrait;
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *

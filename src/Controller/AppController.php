@@ -63,6 +63,7 @@ class AppController extends Controller
     {
         parent::initialize();
 
+        $this->loadAuthComponent();
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Crud.Crud', [
@@ -154,5 +155,43 @@ class AppController extends Controller
         if (!array_key_exists('_serialize', $this->viewVars) && $isRest) {
             $this->set('_serialize', true);
         }
+    }
+
+    /**
+     * Configures the AuthComponent
+     *
+     * @return void
+     */
+    protected function loadAuthComponent()
+    {
+        $this->loadComponent('Auth', [
+            'authorize' => ['Controller'],
+            'loginAction' => [
+                'plugin' => null,
+                'admin' => false,
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'loginRedirect' => '/',
+            'logoutRedirect' => '/',
+            'authenticate' => [
+                'all' => [
+                    'fields' => ['username' => 'email', 'password' => 'password'],
+                ],
+                'Form',
+            ]
+        ]);
+   }
+
+    /**
+     * Check if the provided user is authorized for the request.
+     *
+     * @param array|\ArrayAccess|null $user The user to check the authorization of.
+     *   If empty the user fetched from storage will be used.
+     * @return bool True if $user is authorized, otherwise false
+     */
+    public function isAuthorized(array $user = null)
+    {
+        return false;
     }
 }
