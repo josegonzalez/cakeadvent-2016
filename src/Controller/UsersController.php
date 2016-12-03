@@ -23,6 +23,7 @@ class UsersController extends AppController
     {
         parent::initialize();
 
+        $this->Crud->addListener('Users', 'App\Listener\UsersListener', ['mailer' => 'User']);
         $this->Crud->mapAction('login', 'CrudUsers.Login');
         $this->Crud->mapAction('logout', 'CrudUsers.Logout');
         $this->Crud->mapAction('forgotPassword', 'CrudUsers.ForgotPassword');
