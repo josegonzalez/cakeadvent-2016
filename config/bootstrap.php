@@ -233,3 +233,4 @@ Plugin::load('Crud');
 Plugin::load('CrudView');
 Plugin::load('Josegonzalez/Upload');
 Plugin::load('Search');
+Plugin::load('CrudUsers');

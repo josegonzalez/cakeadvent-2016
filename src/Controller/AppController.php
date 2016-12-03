@@ -168,7 +168,7 @@ class AppController extends Controller
             'authorize' => ['Controller'],
             'loginAction' => [
                 'plugin' => null,
-                'admin' => false,
+                'prefix' => false,
                 'controller' => 'Users',
                 'action' => 'login'
             ],
@@ -190,7 +190,7 @@ class AppController extends Controller
      *   If empty the user fetched from storage will be used.
      * @return bool True if $user is authorized, otherwise false
      */
-    public function isAuthorized(array $user = null)
+    public function isAuthorized($user = null)
     {
         return false;
     }

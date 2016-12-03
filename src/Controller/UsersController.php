@@ -34,9 +34,9 @@ class UsersController extends AppController
      *   If empty the user fetched from storage will be used.
      * @return bool True if $user is authorized, otherwise false
      */
-    public function isAuthorized(array $user = null)
+    public function isAuthorized($user = null)
     {
-        if ($this->request->params['action'] == 'logout') {
+        if ($this->request->param('action') == 'logout') {
             return true;
         }
         return parent::isAuthorized($user);
