@@ -31,6 +31,7 @@ class UsersListener extends BaseListener
     {
         return [
             'Crud.afterForgotPassword' => 'afterForgotPassword',
+            'Crud.verifyToken' => 'verifyToken',
         ];
     }
 
@@ -55,5 +56,17 @@ class UsersListener extends BaseListener
                 $token,
             ]);
         }
+    }
+
+    /**
+     * Before Verify
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function verifyToken(Event $event)
+    {
+        $event->subject->verified = TableRegistry::get('Muffin/Tokenize.Tokens')
+            ->verify($event->subject->token);
     }
 }
