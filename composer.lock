@@ -571,16 +571,16 @@
         },
         {
             "name": "friendsofcake/crud-users",
-            "version": "0.3.0",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/crud-users.git",
-                "reference": "8849a9814314bb8b96dc275f5ea1e57779acf070"
+                "reference": "a74cd56e54cc29d6d146a8aff8851498ccb592b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/crud-users/zipball/8849a9814314bb8b96dc275f5ea1e57779acf070",
-                "reference": "8849a9814314bb8b96dc275f5ea1e57779acf070",
+                "url": "https://api.github.com/repos/FriendsOfCake/crud-users/zipball/a74cd56e54cc29d6d146a8aff8851498ccb592b7",
+                "reference": "a74cd56e54cc29d6d146a8aff8851498ccb592b7",
                 "shasum": ""
             },
             "require": {
@@ -620,7 +620,7 @@
                 "cakephp",
                 "crud"
             ],
-            "time": "2016-11-22 06:04:21"
+            "time": "2016-12-03 06:24:40"
         },
         {
             "name": "friendsofcake/crud-view",
@@ -941,16 +941,16 @@
         },
         {
             "name": "josegonzalez/queuesadilla",
-            "version": "0.0.4",
+            "version": "0.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/josegonzalez/php-queuesadilla.git",
-                "reference": "a969693be0d320af3bdcd53b9126287b6f905999"
+                "reference": "8d126f576c3c1c7b7f1f170cc642060a5a541e2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/josegonzalez/php-queuesadilla/zipball/a969693be0d320af3bdcd53b9126287b6f905999",
-                "reference": "a969693be0d320af3bdcd53b9126287b6f905999",
+                "url": "https://api.github.com/repos/josegonzalez/php-queuesadilla/zipball/8d126f576c3c1c7b7f1f170cc642060a5a541e2d",
+                "reference": "8d126f576c3c1c7b7f1f170cc642060a5a541e2d",
                 "shasum": ""
             },
             "require": {
@@ -999,7 +999,7 @@
                 "php",
                 "queue"
             ],
-            "time": "2016-09-17 21:14:35"
+            "time": "2016-11-25 10:12:16"
         },
         {
             "name": "league/climate",
