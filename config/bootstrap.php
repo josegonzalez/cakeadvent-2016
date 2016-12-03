@@ -234,3 +234,5 @@ Plugin::load('CrudView');
 Plugin::load('Josegonzalez/Upload');
 Plugin::load('Search');
 Plugin::load('CrudUsers');
+
+Plugin::load('Muffin/Tokenize', ['bootstrap' => true, 'routes' => true]);

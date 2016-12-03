@@ -28,7 +28,8 @@
         "josegonzalez/cakephp-queuesadilla": "0.3.*",
         "josegonzalez/queuesadilla": "*",
         "josegonzalez/php-error-handlers": "0.*",
-        "friendsofcake/crud-users": "^0.3.0"
+        "friendsofcake/crud-users": "^0.3.0",
+        "muffin/tokenize": "^1.0@dev"
     },
     "require-dev": {
         "psy/psysh": "@stable",
