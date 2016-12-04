@@ -47,7 +47,7 @@ class UsersController extends AppController
      */
     public function isAuthorized($user = null)
     {
-        if ($this->request->param('action') == 'logout') {
+        if (in_array($this->request->param('action'), ['edit', 'logout'])) {
             return true;
         }
         return parent::isAuthorized($user);

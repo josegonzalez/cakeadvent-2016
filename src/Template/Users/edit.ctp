@@ -18,9 +18,9 @@
         <legend><?= __('Edit User') ?></legend>
         <?php
             echo $this->Form->input('email');
-            echo $this->Form->input('password');
+            echo $this->Form->input('password', ['required' => false]);
+            echo $this->Form->input('confirm_password');
             echo $this->Form->input('avatar');
-            echo $this->Form->input('avatar_dir');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

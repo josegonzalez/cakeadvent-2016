@@ -31,6 +31,9 @@ class UsersListener extends BaseListener
     {
         return [
             'Crud.afterForgotPassword' => 'afterForgotPassword',
+            'Crud.beforeHandle' => 'beforeHandle',
+            'Crud.beforeRender' => 'beforeRender',
+            'Crud.beforeSave' => 'beforeSave',
             'Crud.verifyToken' => 'verifyToken',
         ];
     }
@@ -68,5 +71,89 @@ class UsersListener extends BaseListener
     {
         $event->subject->verified = TableRegistry::get('Muffin/Tokenize.Tokens')
             ->verify($event->subject->token);
+    }
+
+    /**
+     * Before Handle
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeHandle(Event $event)
+    {
+        if ($event->subject->action === 'edit') {
+            $this->beforeHandleEdit($event);
+
+            return;
+        }
+    }
+
+    /**
+     * Before Handle Edit Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeHandleEdit(Event $event)
+    {
+        $userId = $this->_controller()->Auth->user('id');
+        $event->subject->args = [$userId];
+
+        $this->_controller()->Crud->action()->saveOptions(['validate' => 'account']);
+    }
+
+    /**
+     * Before Render
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeRender(Event $event)
+    {
+        if ($this->_controller()->request->action === 'edit') {
+            $this->beforeRenderEdit($event);
+
+            return;
+        }
+    }
+
+    /**
+     * Before Render Edit Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeRenderEdit(Event $event)
+    {
+        $event->subject->entity->unsetProperty('password');
+    }
+
+    /**
+     * Before Save
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeSave(Event $event)
+    {
+        if ($this->_controller()->request->action === 'edit') {
+            $this->beforeSaveEdit($event);
+
+            return;
+        }
+    }
+
+    /**
+     * Before Render Edit Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeSaveEdit(Event $event)
+    {
+        if ($event->subject->entity->confirm_password === '') {
+            $event->subject->entity->unsetProperty('password');
+            $event->subject->entity->dirty('password', false);
+        }
     }
 }

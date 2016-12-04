@@ -25,6 +25,7 @@ class UsersTable extends Table
 {
 
     use \App\Model\Table\Traits\TokenFinderTrait;
+    use \App\Model\Table\Traits\AccountValidationTrait;
 
     /**
      * Initialize method
@@ -68,14 +69,6 @@ class UsersTable extends Table
         $validator
             ->requirePresence('password', 'create')
             ->notEmpty('password');
-
-        $validator
-            ->requirePresence('avatar', 'create')
-            ->notEmpty('avatar');
-
-        $validator
-            ->requirePresence('avatar_dir', 'create')
-            ->notEmpty('avatar_dir');
 
         return $validator;
     }
