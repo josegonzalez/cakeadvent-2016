@@ -13,14 +13,21 @@
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user, ['type' => 'file']) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
             echo $this->Form->input('email');
             echo $this->Form->input('password', ['required' => false]);
             echo $this->Form->input('confirm_password');
-            echo $this->Form->input('avatar');
+            echo $this->Form->input('avatar', ['type' => 'file']);
+            if (!empty($user->avatar)) {
+                $imageUrl = '../' . preg_replace("/^webroot/", "", $user->avatar_dir) . '/' . $user->avatar;
+                echo $this->Html->image($imageUrl, [
+                    'height' => '100',
+                    'width' => '100',
+                ]);
+            }
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

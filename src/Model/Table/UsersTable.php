@@ -43,6 +43,13 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Muffin/Tokenize.Tokenize');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'avatar' => [
+                'fields' => [
+                    'dir' => 'avatar_dir',
+                ],
+            ],
+        ]);
 
         $this->hasMany('Posts', [
             'foreignKey' => 'user_id'
