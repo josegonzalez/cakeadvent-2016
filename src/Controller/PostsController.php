@@ -22,6 +22,13 @@ class PostsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['index']);
+        $this->Crud->mapAction('home', 'Crud.Index');
+        $this->Auth->allow(['home']);
+    }
+
+    public function home()
+    {
+        $this->Crud->action()->view('index');
+        return $this->Crud->execute();
     }
 }
