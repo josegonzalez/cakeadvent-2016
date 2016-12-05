@@ -43,6 +43,16 @@ class AppController extends Controller
     protected $isAdmin = false;
 
     /**
+     * A list of actions where the CrudView.View
+     * listener should be enabled. If an action is
+     * in this list but `isAdmin` is false, the
+     * action will still be rendered via CrudView.View
+     *
+     * @var array
+     */
+    protected $adminActions = [];
+
+    /**
      * A list of actions where the Crud.SearchListener
      * and Search.PrgComponent should be enabled
      *
@@ -83,7 +93,7 @@ class AppController extends Controller
             ],
         ]);
 
-        if ($this->isAdmin) {
+        if ($this->isAdmin || in_array($this->request->action, $this->adminActions)) {
             $this->Crud->addListener('CrudView.View');
         }
 
@@ -132,12 +142,19 @@ class AppController extends Controller
 
         if ($this->Crud->isActionMapped()) {
             $this->Crud->action()->config('scaffold.brand', Configure::read('App.name'));
+            $this->Crud->action()->config('scaffold.tables_blacklist', [
+                'phinxlog',
+                'muffin_tokenize_phinxlog',
+                'post_attributes',
+                'tokenize_tokens',
+                'users',
+            ]);
         }
 
         $isRest = in_array($this->response->type(), ['application/json', 'application/xml']);
-        $isAdmin = $this->request->prefix == 'admin' || $this->isAdmin;
+        $isAdmin = $this->isAdmin || in_array($this->request->action, $this->adminActions);
         if (!$isRest && $isAdmin) {
-            $this->viewClass = 'CrudView\View\CrudView';
+            $this->viewBuilder()->className('CrudView\View\CrudView');
         }
     }
 
