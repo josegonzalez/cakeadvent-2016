@@ -624,16 +624,16 @@
         },
         {
             "name": "friendsofcake/crud-view",
-            "version": "0.3.4",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/crud-view.git",
-                "reference": "f0bdeaf2185c20eea0d1a6fda4fcc23bad7c364d"
+                "reference": "05a5d0911fde8a957dc21c1ea727adfffedb8fcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/crud-view/zipball/f0bdeaf2185c20eea0d1a6fda4fcc23bad7c364d",
-                "reference": "f0bdeaf2185c20eea0d1a6fda4fcc23bad7c364d",
+                "url": "https://api.github.com/repos/FriendsOfCake/crud-view/zipball/05a5d0911fde8a957dc21c1ea727adfffedb8fcd",
+                "reference": "05a5d0911fde8a957dc21c1ea727adfffedb8fcd",
                 "shasum": ""
             },
             "require": {
@@ -680,7 +680,7 @@
                 "scaffolding",
                 "update"
             ],
-            "time": "2016-11-20 18:49:14"
+            "time": "2016-12-06 11:30:02"
         },
         {
             "name": "friendsofcake/search",
@@ -729,16 +729,16 @@
         },
         {
             "name": "josegonzalez/cakephp-queuesadilla",
-            "version": "0.3.4",
+            "version": "0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/josegonzalez/cakephp-queuesadilla.git",
-                "reference": "9f9937627ac97d860d63abb53e2aa94449aadb60"
+                "reference": "847e02751a9c0a2ad3bd9b58a8120c6332c6b749"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/josegonzalez/cakephp-queuesadilla/zipball/9f9937627ac97d860d63abb53e2aa94449aadb60",
-                "reference": "9f9937627ac97d860d63abb53e2aa94449aadb60",
+                "url": "https://api.github.com/repos/josegonzalez/cakephp-queuesadilla/zipball/847e02751a9c0a2ad3bd9b58a8120c6332c6b749",
+                "reference": "847e02751a9c0a2ad3bd9b58a8120c6332c6b749",
                 "shasum": ""
             },
             "require": {
@@ -777,7 +777,7 @@
                 "queue",
                 "shell"
             ],
-            "time": "2016-09-15 01:11:25"
+            "time": "2016-12-06 10:33:34"
         },
         {
             "name": "josegonzalez/cakephp-upload",
@@ -1366,16 +1366,16 @@
         },
         {
             "name": "mindscape/raygun4php",
-            "version": "v1.7.0",
+            "version": "v1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MindscapeHQ/raygun4php.git",
-                "reference": "290d522bf4209570eb3d2b0349e3a25d15019edb"
+                "reference": "4cce3e729344abb7bd5e1d0cb42bd63d01ce8f38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MindscapeHQ/raygun4php/zipball/290d522bf4209570eb3d2b0349e3a25d15019edb",
-                "reference": "290d522bf4209570eb3d2b0349e3a25d15019edb",
+                "url": "https://api.github.com/repos/MindscapeHQ/raygun4php/zipball/4cce3e729344abb7bd5e1d0cb42bd63d01ce8f38",
+                "reference": "4cce3e729344abb7bd5e1d0cb42bd63d01ce8f38",
                 "shasum": ""
             },
             "require": {
@@ -1412,7 +1412,7 @@
                 "logging",
                 "raygun"
             ],
-            "time": "2016-08-08 03:20:10"
+            "time": "2016-12-05 22:10:04"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -1548,23 +1548,23 @@
         },
         {
             "name": "muffin/tokenize",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/UseMuffin/Tokenize.git",
-                "reference": "7dea225fdb29200fb711cfe75baa8d0e9b1b8bb3"
+                "reference": "fb46915d765daa105a6458fd9f6467535d5f65b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UseMuffin/Tokenize/zipball/7dea225fdb29200fb711cfe75baa8d0e9b1b8bb3",
-                "reference": "7dea225fdb29200fb711cfe75baa8d0e9b1b8bb3",
+                "url": "https://api.github.com/repos/UseMuffin/Tokenize/zipball/fb46915d765daa105a6458fd9f6467535d5f65b3",
+                "reference": "fb46915d765daa105a6458fd9f6467535d5f65b3",
                 "shasum": ""
             },
             "require-dev": {
                 "cakephp/cakephp": "~3.0",
                 "cakephp/cakephp-codesniffer": "2.*",
                 "cakephp/migrations": "~1.0",
-                "phpunit/phpunit": "4.1.*"
+                "phpunit/phpunit": "@stable"
             },
             "type": "cakephp-plugin",
             "extra": {
@@ -1604,7 +1604,7 @@
                 "muffin",
                 "tokenize"
             ],
-            "time": "2016-04-20 19:12:08"
+            "time": "2016-12-04 14:51:04"
         },
         {
             "name": "psr/http-message",
