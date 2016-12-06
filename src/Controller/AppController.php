@@ -141,13 +141,30 @@ class AppController extends Controller
         });
 
         if ($this->Crud->isActionMapped()) {
-            $this->Crud->action()->config('scaffold.brand', Configure::read('App.name'));
+            $this->Crud->action()->config('scaffold.site_title', Configure::read('App.name'));
             $this->Crud->action()->config('scaffold.tables_blacklist', [
                 'phinxlog',
                 'muffin_tokenize_phinxlog',
                 'post_attributes',
                 'tokenize_tokens',
                 'users',
+            ]);
+
+            $this->Crud->action()->config('scaffold.utility_navigation', [
+                new \CrudView\Menu\MenuItem(
+                    'Log Out',
+                    ['controller' => 'Users', 'action' => 'logout']
+                )
+            ]);
+            $this->Crud->action()->config('scaffold.sidebar_navigation', [
+                new \CrudView\Menu\MenuItem(
+                    'Posts',
+                    ['controller' => 'Posts', 'action' => 'index']
+                ),
+                new \CrudView\Menu\MenuItem(
+                    'Profile',
+                    ['controller' => 'Users', 'action' => 'edit']
+                ),
             ]);
         }
 

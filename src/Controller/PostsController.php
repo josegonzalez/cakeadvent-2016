@@ -2,6 +2,10 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
+use CrudView\Menu\MenuDivider;
+use CrudView\Menu\MenuDropdown;
+use CrudView\Menu\MenuItem;
 
 /**
  * Posts Controller
@@ -32,6 +36,8 @@ class PostsController extends AppController
     public function initialize()
     {
         parent::initialize();
+
+        $this->Crud->addListener('Users', 'App\Listener\PostsListener');
         $this->Crud->mapAction('home', 'Crud.Index');
         $this->Auth->allow(['home']);
     }
