@@ -9,6 +9,51 @@ use Cake\Utility\Inflector;
 
 abstract class AbstractPostType extends Form
 {
+    protected function _buildSchema(Schema $schema)
+    {
+        $schema->addField('user_id', ['type' => 'hidden']);
+        $schema->addField('title', ['type' => 'string']);
+        $schema->addField('url', ['type' => 'string']);
+        $schema->addField('status', ['type' => 'select']);
+        return $schema;
+    }
+
+    protected function _buildValidator(Validator $validator)
+    {
+        $validator->notEmpty('user_id', 'Please fill this field');
+        $validator->notEmpty('title', 'Please fill this field');
+        $validator->notEmpty('url', 'Please fill this field');
+        $validator->add('status', 'inList', [
+            'rule' => ['inList', ['active', 'inactive']],
+            'message' => 'Status must be either active or inactive'
+        ]);
+        return $validator;
+    }
+
+    protected function _execute(array $data)
+    {
+        $postsTable = TableRegistry::get('Posts');
+        $attributesTable = TableRegistry::get('PostAttributes');
+        $postAttributes = [];
+
+        $postFields = $postsTable->schema()->columns();
+        foreach ($data as $key => $value)
+        {
+            if (in_array($key, $postFields)) {
+                continue;
+            }
+            $postAttributes[] = $attributesTable->newEntity([
+                'name' => $key,
+                'value' => $value,
+            ]);
+            unset($data[$key]);
+        }
+
+        $post = $postsTable->newEntity($data);
+        $post->post_attributes = $postAttributes;
+        return $postsTable->save($post);
+    }
+
     public function get($key, $default = null)
     {
         if (empty($this->_data)) {
@@ -42,30 +87,6 @@ abstract class AbstractPostType extends Form
         return 'post_type/' . Inflector::underscore($template);
     }
 
-    protected function _execute(array $data)
-    {
-        $postsTable = TableRegistry::get('Posts');
-        $attributesTable = TableRegistry::get('PostAttributes');
-        $postAttributes = [];
-
-        $postFields = ['id', 'user_id', 'title', 'url'];
-        foreach ($data as $key => $value)
-        {
-            if (in_array($key, $postFields)) {
-                continue;
-            }
-            $postAttributes[] = $attributesTable->newEntity([
-                'name' => $key,
-                'value' => $value,
-            ]);
-            unset($data[$key]);
-        }
-
-        $post = $postsTable->newEntity($data);
-        $post->post_attributes = $postAttributes;
-        return $postsTable->save($post);
-    }
-
     public function data(Post $post)
     {
         $data = $post->toArray();
@@ -74,5 +95,11 @@ abstract class AbstractPostType extends Form
                 $data[$postAttribute->name] = $postAttribute->value;
         }
         return $data;
+    }
+
+    public function viewVars()
+    {
+        $statuses = ['active' => 'active', 'inactive' => 'inactive'];
+        return compact('statuses');
     }
 }

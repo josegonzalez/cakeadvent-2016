@@ -68,5 +68,4 @@ class PostsController extends AppController
         $this->Crud->action()->view('index');
         return $this->Crud->execute();
     }
-
 }
