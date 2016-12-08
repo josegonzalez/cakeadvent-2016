@@ -1,7 +1,10 @@
 <?php
 namespace App\PostType;
 
+use Cake\Form\Form;
+use Cake\Form\Schema;
 use Cake\ORM\TableRegistry;
+use Cake\Validation\Validator;
 use Cake\Utility\Inflector;
 
 abstract class AbstractPostType extends Form
@@ -20,12 +23,12 @@ abstract class AbstractPostType extends Form
 
     public function indexTemplate()
     {
-        return $this->templatePrefix() . '-index.ctp'
+        return $this->templatePrefix() . '-index.ctp';
     }
 
     public function viewTemplate()
     {
-        return $this->templatePrefix() . '-view.ctp'
+        return $this->templatePrefix() . '-view.ctp';
     }
 
     protected function templatePrefix()
