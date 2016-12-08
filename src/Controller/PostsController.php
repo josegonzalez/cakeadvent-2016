@@ -42,12 +42,6 @@ class PostsController extends AppController
         $this->Auth->allow(['home']);
     }
 
-    public function home()
-    {
-        $this->Crud->action()->view('index');
-        return $this->Crud->execute();
-    }
-
     /**
      * Check if the provided user is authorized for the request.
      *
@@ -63,4 +57,16 @@ class PostsController extends AppController
         }
         return parent::isAuthorized($user);
     }
+
+    /**
+     * Displays the home page
+     *
+     * @return void|\Cake\Network\Response
+     */
+    public function home()
+    {
+        $this->Crud->action()->view('index');
+        return $this->Crud->execute();
+    }
+
 }
