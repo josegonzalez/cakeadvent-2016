@@ -22,6 +22,7 @@ class PostsListener extends BaseListener
         return [
             'Crud.beforeHandle' => 'beforeHandle',
             'Crud.beforeRender' => 'beforeRender',
+            'Crud.beforeSave' => 'beforeSave',
         ];
     }
 
@@ -59,6 +60,17 @@ class PostsListener extends BaseListener
 
             return;
         }
+    }
+
+    /**
+     * Before Save
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeSave(Event $event)
+    {
+        $event->subject->entity->user_id = $this->_controller()->Auth->user('id');
     }
 
     /**
