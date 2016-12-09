@@ -1,6 +1,7 @@
 <?php
 namespace App\PostType;
 
+use App\Model\Entity\Post;
 use Cake\Form\Form;
 use Cake\Form\Schema;
 use Cake\ORM\TableRegistry;
@@ -91,6 +92,7 @@ abstract class AbstractPostType extends Form
     {
         $data = $post->toArray();
         unset($data['post_attributes']);
+        unset($data['user']);
         foreach ($post->post_attributes as $postAttribute) {
                 $data[$postAttribute->name] = $postAttribute->value;
         }
