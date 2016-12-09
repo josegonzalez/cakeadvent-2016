@@ -3,6 +3,8 @@ namespace App\Listener;
 
 use Cake\Core\App;
 use Cake\Event\Event;
+use Cake\I18n\Time;
+use Cake\ORM\TableRegistry;
 use Crud\Listener\BaseListener;
 
 /**
@@ -70,7 +72,40 @@ class PostsListener extends BaseListener
      */
     public function beforeSave(Event $event)
     {
-        $event->subject->entity->user_id = $this->_controller()->Auth->user('id');
+        $type = $event->subject->entity->type;
+        if (empty($type)) {
+            $passedArgs = $this->_request()->param('pass');
+            $type = $passedArgs[0];
+        }
+
+        $event->subject->entity->type = $type;
+        $postTypeClassName = $this->_postTypeAliasToClass($type);
+        $className = App::className($postTypeClassName, 'PostType');
+        $postType = new $className;
+        $validFields = $postType->schema()->fields();
+
+        $postAttributes = [];
+        $PostsTable = TableRegistry::get('Posts');
+        $postColumns = $PostsTable->schema()->columns();
+        foreach ($event->subject->entity->toArray() as $field => $value) {
+            if (!in_array($field, $postColumns) && in_array($field, $validFields)) {
+                $postAttributes[] = [
+                    'name' => $field,
+                    'value' => $value,
+                ];
+            }
+        }
+
+        $data = [
+            'user_id' => $this->_controller()->Auth->user('id'),
+            'type' => $type,
+            'post_attributes' => $postAttributes,
+        ] + $this->_request()->data;
+        if (empty($data['published_date'])) {
+            $data['published_date'] = Time::now();
+        }
+
+        $PostsTable->patchEntity($event->subject->entity, $data);
     }
 
     /**
