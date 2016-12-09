@@ -53,6 +53,12 @@ class PostsListener extends BaseListener
 
             return;
         }
+
+        if ($this->_controller()->request->action === 'edit') {
+            $this->beforeRenderEdit($event);
+
+            return;
+        }
     }
 
     /**
@@ -84,34 +90,72 @@ class PostsListener extends BaseListener
      */
     public function beforeRenderAdd(Event $event)
     {
-        $postTypes = PostsListener::postTypes();
-        $request = $this->_request();
-        $passedArgs = $request->param('pass');
-
-        $postType = null;
+        $passedArgs = $this->_request()->param('pass');
+        $className = null;
         if (!empty($passedArgs)) {
-            $type = $passedArgs[0];
-            foreach ($postTypes as $class => $alias) {
-                if ($alias === $type) {
-                    $postType = $class;
-                }
-            }
+            $className = $this->_postTypeAliasToClass($passedArgs[0]);
         }
 
-        if ($postType !== null) {
-            $className = App::className($postType, 'PostType');
-            $postType = new $className;
-            $fields = [];
-            foreach ($postType->schema()->fields() as $field) {
-                $fields[$field] = [
-                    'type' => $postType->schema()->fieldType($field)
-                ];
-            }
-
-            $viewVars = $postType->viewVars();
-            $viewVars['fields'] = $fields;
-            $this->_controller()->set($viewVars);
-            $event->subject->set(['entity' => $postType]);
+        if ($className !== null) {
+            $this->_setPostType($event, $className);
         }
+    }
+
+    /**
+     * Before Render Edit Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeRenderEdit(Event $event)
+    {
+        $entity = $event->subject->entity;
+        $className = $this->_postTypeAliasToClass($entity->type);
+        $this->_setPostType($event, $className);
+        if ($this->_request()->is('get')) {
+            $this->_request()->data = $event->subject->entity->data($entity);
+        }
+    }
+
+    /**
+     * Returns a class name for a given post type alias
+     *
+     * @param string $typeAlias the alias of a post type class
+     * @return string
+     */
+    public function _postTypeAliasToClass($typeAlias)
+    {
+        $className = null;
+        $postTypes = PostsListener::postTypes();
+        foreach ($postTypes as $class => $alias) {
+            if ($alias === $typeAlias) {
+                $className = $class;
+            }
+        }
+        return $className;
+    }
+
+    /**
+     * Set the post type for add/edit actions
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param string $postType the name of a post type class
+     * @return void
+     */
+    protected function _setPostType(Event $event, $postType)
+    {
+        $className = App::className($postType, 'PostType');
+        $postType = new $className;
+        $fields = [];
+        foreach ($postType->schema()->fields() as $field) {
+            $fields[$field] = [
+                'type' => $postType->schema()->fieldType($field)
+            ];
+        }
+
+        $viewVars = $postType->viewVars();
+        $viewVars['fields'] = $fields;
+        $this->_controller()->set($viewVars);
+        $event->subject->set(['entity' => $postType]);
     }
 }
