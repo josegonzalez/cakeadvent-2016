@@ -1,6 +1,7 @@
 <?php
 namespace App\Listener;
 
+use App\PostType\AbstractPostType;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\I18n\Time;
@@ -77,9 +78,7 @@ class PostsListener extends BaseListener
         }
 
         $event->subject->entity->type = $type;
-        $postTypeClassName = $this->_postTypeAliasToClass($type);
-        $className = App::className($postTypeClassName, 'PostType');
-        $postType = new $className;
+        $postType = $event->subject->entity->getPostType();
         $validFields = $postType->schema()->fields();
 
         $postAttributes = [];
@@ -136,14 +135,8 @@ class PostsListener extends BaseListener
     public function beforeRenderAdd(Event $event)
     {
         $passedArgs = $this->_request()->param('pass');
-        $className = null;
-        if (!empty($passedArgs)) {
-            $className = $this->_postTypeAliasToClass($passedArgs[0]);
-        }
-
-        if ($className !== null) {
-            $this->_setPostType($event, $className);
-        }
+        $event->subject->entity->type = $passedArgs[0];
+        $this->_setPostType($event, $event->subject->entity->getPostType());
     }
 
     /**
@@ -155,8 +148,7 @@ class PostsListener extends BaseListener
     public function beforeRenderEdit(Event $event)
     {
         $entity = $event->subject->entity;
-        $className = $this->_postTypeAliasToClass($entity->type);
-        $this->_setPostType($event, $className);
+        $this->_setPostType($event, $entity->getPostType());
         if ($this->_request()->is('get')) {
             $this->_request()->data = $event->subject->entity->data($entity);
         }
@@ -169,10 +161,8 @@ class PostsListener extends BaseListener
      * @param string $postType the name of a post type class
      * @return void
      */
-    protected function _setPostType(Event $event, $postType)
+    protected function _setPostType(Event $event, AbstractPostType $postType)
     {
-        $className = App::className($postType, 'PostType');
-        $postType = new $className;
         $fields = [];
         foreach ($postType->schema()->fields() as $field) {
             $fields[$field] = [
