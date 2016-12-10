@@ -12,8 +12,6 @@ use Crud\Listener\BaseListener;
  */
 class PostsListener extends BaseListener
 {
-    use \App\Traits\PostTypesTrait;
-
     /**
      * Callbacks definition
      *
@@ -162,24 +160,6 @@ class PostsListener extends BaseListener
         if ($this->_request()->is('get')) {
             $this->_request()->data = $event->subject->entity->data($entity);
         }
-    }
-
-    /**
-     * Returns a class name for a given post type alias
-     *
-     * @param string $typeAlias the alias of a post type class
-     * @return string
-     */
-    public function _postTypeAliasToClass($typeAlias)
-    {
-        $className = null;
-        $postTypes = PostsListener::postTypes();
-        foreach ($postTypes as $class => $alias) {
-            if ($alias === $typeAlias) {
-                $className = $class;
-            }
-        }
-        return $className;
     }
 
     /**

@@ -19,6 +19,7 @@ use Cake\ORM\Entity;
  */
 class Post extends Entity
 {
+    use \App\Model\Entity\Traits\PostTypeTrait;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

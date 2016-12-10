@@ -1,5 +1,5 @@
 <?php
-namespace App\Traits;
+namespace App\Model\Table\Traits;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
