@@ -40,6 +40,12 @@ class PostsListener extends BaseListener
 
             return;
         }
+
+        if ($this->_controller()->request->action === 'home') {
+            $this->beforeHandleHome($event);
+
+            return;
+        }
     }
 
     /**
@@ -124,6 +130,17 @@ class PostsListener extends BaseListener
             ],
             'published_date',
         ]);
+    }
+
+    /**
+     * Before Handle Home Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeHandleHome(Event $event)
+    {
+        $this->_action()->config('findMethod', 'blog');
     }
 
     /**

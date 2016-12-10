@@ -24,6 +24,7 @@ use Cake\Validation\Validator;
  */
 class PostsTable extends Table
 {
+    use \App\Model\Table\Traits\BlogFinderTrait;
     use \App\Model\Table\Traits\PostTypesTrait;
 
     /**
