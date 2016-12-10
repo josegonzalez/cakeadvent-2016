@@ -2,6 +2,7 @@
 namespace App\PostType;
 
 use App\Model\Entity\Post;
+use Cake\Core\Configure;
 use Cake\Form\Form;
 use Cake\Form\Schema;
 use Cake\ORM\TableRegistry;
@@ -10,6 +11,15 @@ use Cake\Utility\Inflector;
 
 abstract class AbstractPostType extends Form
 {
+    protected $_post = null;
+
+    public function __construct(Post $post = null)
+    {
+        if ($post !== null) {
+            $this->_post = $post;
+        }
+    }
+
     protected function _buildSchema(Schema $schema)
     {
         $schema->addField('user_id', ['type' => 'hidden']);
@@ -38,8 +48,7 @@ abstract class AbstractPostType extends Form
         $postAttributes = [];
 
         $postFields = $postsTable->schema()->columns();
-        foreach ($data as $key => $value)
-        {
+        foreach ($data as $key => $value) {
             if (in_array($key, $postFields)) {
                 continue;
             }
@@ -69,31 +78,51 @@ abstract class AbstractPostType extends Form
 
     public function indexTemplate()
     {
-        return $this->templatePrefix() . '-index.ctp';
+        return $this->templatePrefix() . '-index';
     }
 
     public function viewTemplate()
     {
-        return $this->templatePrefix() . '-view.ctp';
+        return $this->templatePrefix() . '-view';
     }
 
     protected function templatePrefix()
     {
-        $template = get_class($this);
-        if ($pos = strrpos($template, '\\')) {
-            return substr($template, $pos + 1);
+        $template = $className = get_class($this);
+        $firstPos = $lastPos = 0;
+        $prefix = null;
+
+        if ($lastPos = strrpos($className, '\\')) {
+            $template = substr($className, $lastPos + 1);
+        }
+        if ($firstPos = strpos($className, '\\')) {
+            $prefix = substr($className, 0, $firstPos);
+            if ($prefix === Configure::read('App.namespace')) {
+                $prefix = null;
+            }
         }
 
         $template = preg_replace('/PostType$/', '', $template);
-        return 'post_type/' . Inflector::underscore($template);
+        $template = 'post_type/' . Inflector::underscore($template);
+        if ($prefix !== null) {
+            $template = sprintf('%s.%s', $prefix, $template);
+        }
+        return $template;
     }
 
-    public function data(Post $post)
+    public function data(Post $post = null)
     {
+        if ($post === null) {
+            $post = $this->_post;
+        }
+        if ($post === null) {
+            return [];
+        }
+
         $data = $post->toArray();
         unset($data['post_attributes']);
         unset($data['user']);
-        foreach ($post->post_attributes as $postAttribute) {
+        foreach ((array)$post->post_attributes as $postAttribute) {
                 $data[$postAttribute->name] = $postAttribute->value;
         }
         return $data;
