@@ -1,6 +1,7 @@
 <?php
 namespace App\Listener;
 
+use App\Model\Table\PostsTable;
 use App\PostType\AbstractPostType;
 use Cake\Core\App;
 use Cake\Event\Event;
@@ -130,6 +131,32 @@ class PostsListener extends BaseListener
             ],
             'published_date',
         ]);
+        $this->_controller()->set('indexActions', $this->_getIndexActions());
+        $this->_action()->config('scaffold.viewblocks', [
+            'actions' => [
+                'admin/Posts/index-actions' => 'element',
+            ],
+        ]);
+    }
+
+    /**
+     * Get valid actions for the index page
+     *
+     * @return array
+     */
+    protected function _getIndexActions()
+    {
+        $indexActions = [];
+        $postTypes = PostsTable::postTypes();
+        foreach ($postTypes as $class => $alias) {
+            $indexActions[] = [
+                'title' => __('Add {0}', $alias),
+                'url' => ['controller' => 'Posts', 'action' => 'add', $alias],
+                'options' => ['class' => 'btn btn-default'],
+                'method' => 'GET',
+            ];
+        }
+        return $indexActions;
     }
 
     /**
