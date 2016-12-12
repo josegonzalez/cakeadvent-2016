@@ -20,7 +20,9 @@ class UsersController extends AppController
      */
     protected $adminActions = [
         'edit',
-        'login'
+        'login',
+        'forgotPassword',
+        'resetPassword',
     ];
 
     /**

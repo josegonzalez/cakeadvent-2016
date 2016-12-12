@@ -91,6 +91,16 @@ class UsersListener extends BaseListener
 
             return;
         }
+        if ($event->subject->action === 'forgotPassword') {
+            $this->beforeHandleForgotPassword($event);
+
+            return;
+        }
+        if ($event->subject->action === 'resetPassword') {
+            $this->beforeHandleResetPassword($event);
+
+            return;
+        }
     }
 
     /**
@@ -125,6 +135,31 @@ class UsersListener extends BaseListener
     }
 
     /**
+     * Before Handle ForgotPassword Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeHandleForgotPassword(Event $event)
+    {
+        $this->_controller()->set([
+            'viewVar' => 'forgotPassword',
+            'forgotPassword' => null,
+        ]);
+        $this->_controller()->viewBuilder()->template('add');
+        $this->_action()->config('scaffold.page_title', 'Forgot Password?');
+        $this->_action()->config('scaffold.fields', [
+            'email',
+        ]);
+        $this->_action()->config('scaffold.viewblocks', [
+            'actions' => ['' => 'text'],
+        ]);
+        $this->_action()->config('scaffold.sidebar_navigation', false);
+        $this->_action()->config('scaffold.disable_extra_buttons', true);
+        $this->_action()->config('scaffold.submit_button_text', 'Send Password Reset Email');
+    }
+
+    /**
      * Before Handle Login Action
      *
      * @param \Cake\Event\Event $event Event
@@ -148,6 +183,31 @@ class UsersListener extends BaseListener
         $this->_action()->config('scaffold.sidebar_navigation', false);
         $this->_action()->config('scaffold.disable_extra_buttons', true);
         $this->_action()->config('scaffold.submit_button_text', 'Login');
+    }
+
+    /**
+     * Before Handle ResetPassword Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeHandleResetPassword(Event $event)
+    {
+        $this->_controller()->set([
+            'viewVar' => 'resetPassword',
+            'resetPassword' => null,
+        ]);
+        $this->_controller()->viewBuilder()->template('add');
+        $this->_action()->config('scaffold.page_title', 'Enter a new password to reset your account');
+        $this->_action()->config('scaffold.fields', [
+            'password',
+        ]);
+        $this->_action()->config('scaffold.viewblocks', [
+            'actions' => ['' => 'text'],
+        ]);
+        $this->_action()->config('scaffold.sidebar_navigation', false);
+        $this->_action()->config('scaffold.disable_extra_buttons', true);
+        $this->_action()->config('scaffold.submit_button_text', 'Reset Password');
     }
 
     /**
