@@ -104,7 +104,24 @@ class UsersListener extends BaseListener
         $userId = $this->_controller()->Auth->user('id');
         $event->subject->args = [$userId];
 
-        $this->_controller()->Crud->action()->saveOptions(['validate' => 'account']);
+        $this->_action()->saveOptions(['validate' => 'account']);
+        $this->_action()->config('scaffold.page_title', 'Profile');
+        $this->_action()->config('scaffold.disable_extra_buttons', true);
+        $this->_action()->config('scaffold.viewblocks', [
+            'actions' => ['' => 'text'],
+        ]);
+        $this->_action()->config('scaffold.fields', [
+            'email',
+            'password' => [
+                'required' => false,
+            ],
+            'confirm_password' => [
+                'type' => 'password',
+            ],
+            'avatar' => [
+                'type' => 'file'
+            ],
+        ]);
     }
 
     /**
@@ -141,7 +158,7 @@ class UsersListener extends BaseListener
      */
     public function beforeRender(Event $event)
     {
-        if ($this->_controller()->request->action === 'edit') {
+        if ($this->_request()->action === 'edit') {
             $this->beforeRenderEdit($event);
 
             return;
@@ -167,7 +184,7 @@ class UsersListener extends BaseListener
      */
     public function beforeSave(Event $event)
     {
-        if ($this->_controller()->request->action === 'edit') {
+        if ($this->_request()->action === 'edit') {
             $this->beforeSaveEdit($event);
 
             return;

@@ -18,7 +18,10 @@ class UsersController extends AppController
      *
      * @var array
      */
-    protected $adminActions = ['login'];
+    protected $adminActions = [
+        'edit',
+        'login'
+    ];
 
     /**
      * Initialization hook method.
