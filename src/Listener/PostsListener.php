@@ -35,13 +35,13 @@ class PostsListener extends BaseListener
      */
     public function beforeHandle(Event $event)
     {
-        if ($this->_controller()->request->action === 'index') {
+        if ($this->_request()->action === 'index') {
             $this->beforeHandleIndex($event);
 
             return;
         }
 
-        if ($this->_controller()->request->action === 'home') {
+        if ($this->_request()->action === 'home') {
             $this->beforeHandleHome($event);
 
             return;
@@ -56,13 +56,13 @@ class PostsListener extends BaseListener
      */
     public function beforeRender(Event $event)
     {
-        if ($this->_controller()->request->action === 'add') {
+        if ($this->_request()->action === 'add') {
             $this->beforeRenderAdd($event);
 
             return;
         }
 
-        if ($this->_controller()->request->action === 'edit') {
+        if ($this->_request()->action === 'edit') {
             $this->beforeRenderEdit($event);
 
             return;
