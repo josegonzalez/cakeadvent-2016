@@ -28,4 +28,27 @@ trait PostTypesTrait
         }
         return static::$postTypes;
     }
+
+    /**
+     * Checks if the passed arguments contain a valid post type
+     *
+     * @param string $passedArgs a list of passed request parameters
+     * @return bool
+     */
+    public static function isValidPostType($passedArgs)
+    {
+        if (empty($passedArgs[0])) {
+            return false;
+        }
+
+        $validPostType = false;
+        $postTypes = static::postTypes();
+        foreach ($postTypes as $class => $alias) {
+            if ($passedArgs[0] === $alias) {
+                $validPostType = true;
+                break;
+            }
+        }
+        return $validPostType;
+    }
 }

@@ -179,6 +179,13 @@ class PostsListener extends BaseListener
     public function beforeRenderAdd(Event $event)
     {
         $passedArgs = $this->_request()->param('pass');
+        if (!PostsTable::isValidPostType($passedArgs)) {
+            return $this->_controller()->redirect([
+                'controller' => 'Posts',
+                'action' => 'index',
+            ]);
+        }
+
         $event->subject->entity->type = $passedArgs[0];
         $this->_setPostType($event, $event->subject->entity->getPostType());
     }
