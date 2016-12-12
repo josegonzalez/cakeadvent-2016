@@ -86,6 +86,11 @@ class UsersListener extends BaseListener
 
             return;
         }
+        if ($event->subject->action === 'login') {
+            $this->beforeHandleLogin($event);
+
+            return;
+        }
     }
 
     /**
@@ -100,6 +105,32 @@ class UsersListener extends BaseListener
         $event->subject->args = [$userId];
 
         $this->_controller()->Crud->action()->saveOptions(['validate' => 'account']);
+    }
+
+    /**
+     * Before Handle Login Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeHandleLogin(Event $event)
+    {
+        $this->_controller()->set([
+            'viewVar' => 'login',
+            'login' => null,
+        ]);
+        $this->_controller()->viewBuilder()->template('add');
+        $this->_action()->config('scaffold.page_title', 'Login');
+        $this->_action()->config('scaffold.fields', [
+            'email',
+            'password',
+        ]);
+        $this->_action()->config('scaffold.viewblocks', [
+            'actions' => ['' => 'text'],
+        ]);
+        $this->_action()->config('scaffold.sidebar_navigation', false);
+        $this->_action()->config('scaffold.disable_extra_buttons', true);
+        $this->_action()->config('scaffold.submit_button_text', 'Login');
     }
 
     /**

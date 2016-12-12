@@ -11,6 +11,16 @@ use App\Controller\AppController;
 class UsersController extends AppController
 {
     /**
+     * A list of actions where the CrudView.View
+     * listener should be enabled. If an action is
+     * in this list but `isAdmin` is false, the
+     * action will still be rendered via CrudView.View
+     *
+     * @var array
+     */
+    protected $adminActions = ['login'];
+
+    /**
      * Initialization hook method.
      *
      * Use this method to add common initialization code like loading components.
