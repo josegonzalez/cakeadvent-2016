@@ -8,13 +8,13 @@ class UserMailer extends Mailer
     /**
      * Email sent on password recovery requests
      *
-     * @param array $user User information, must includer email and username
+     * @param array $email User email
      * @param string $token Token used for validation
      * @return \Cake\Mailer\Mailer
      */
-    public function forgotPassword($user, $token)
+    public function forgotPassword($email, $token)
     {
-        return $this->to($user['email'])
+        return $this->to($email)
             ->subject('Reset your password')
             ->template('forgot_password')
             ->layout(false)
