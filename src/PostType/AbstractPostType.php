@@ -7,6 +7,7 @@ use Cake\Form\Form;
 use Cake\Form\Schema;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 
 abstract class AbstractPostType extends Form
@@ -33,7 +34,6 @@ abstract class AbstractPostType extends Form
     {
         $validator->notEmpty('user_id', 'Please fill this field');
         $validator->notEmpty('title', 'Please fill this field');
-        $validator->notEmpty('url', 'Please fill this field');
         $validator->add('status', 'inList', [
             'rule' => ['inList', ['active', 'inactive']],
             'message' => 'Status must be either active or inactive'
@@ -47,6 +47,7 @@ abstract class AbstractPostType extends Form
             $data['post_attributes'] = [];
         }
         $data = $this->transformData($data);
+        $data['url'] = $this->ensureUrl($data);
 
         $PostsTable = TableRegistry::get('Posts');
         $AttributesTable = TableRegistry::get('PostAttributes');
@@ -99,6 +100,16 @@ abstract class AbstractPostType extends Form
     public function viewTemplate()
     {
         return $this->templatePrefix() . '-view';
+    }
+
+    protected function ensureUrl(array $data)
+    {
+        $url = trim(Hash::get($data, 'url', ''), '/');
+        if (strlen($url) !== 0) {
+            return $url;
+        }
+
+        return Hash::get($data, 'title', '');
     }
 
     protected function templatePrefix()

@@ -20,6 +20,7 @@ use Cake\ORM\Entity;
 class Post extends Entity
 {
     use \App\Model\Entity\Traits\PostTypeTrait;
+    use \App\Model\Entity\Traits\UrlSettingTrait;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
