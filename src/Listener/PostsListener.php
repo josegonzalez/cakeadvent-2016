@@ -85,30 +85,15 @@ class PostsListener extends BaseListener
         }
 
         $event->subject->entity->type = $type;
-        $postType = $event->subject->entity->getPostType();
-        $validFields = $postType->schema()->fields();
-
-        $postAttributes = [];
-        $PostsTable = TableRegistry::get('Posts');
-        $postColumns = $PostsTable->schema()->columns();
-        foreach ($event->subject->entity->toArray() as $field => $value) {
-            if (!in_array($field, $postColumns) && in_array($field, $validFields)) {
-                $postAttributes[] = [
-                    'name' => $field,
-                    'value' => $value,
-                ];
-            }
-        }
 
         $data = [
             'user_id' => $this->_controller()->Auth->user('id'),
             'type' => $type,
-            'post_attributes' => $postAttributes,
-        ] + $this->_request()->data;
-        if (empty($data['published_date'])) {
-            $data['published_date'] = Time::now();
-        }
+        ] + $this->_request()->data() + ['published_date' => Time::now()];
+        $postType = $event->subject->entity->getPostType();
+        $data = $postType->execute($data);
 
+        $PostsTable = TableRegistry::get('Posts');
         $PostsTable->patchEntity($event->subject->entity, $data);
     }
 

@@ -43,25 +43,34 @@ abstract class AbstractPostType extends Form
 
     protected function _execute(array $data)
     {
-        $postsTable = TableRegistry::get('Posts');
-        $attributesTable = TableRegistry::get('PostAttributes');
-        $postAttributes = [];
-
-        $postFields = $postsTable->schema()->columns();
-        foreach ($data as $key => $value) {
-            if (in_array($key, $postFields)) {
-                continue;
-            }
-            $postAttributes[] = $attributesTable->newEntity([
-                'name' => $key,
-                'value' => $value,
-            ]);
-            unset($data[$key]);
+        if (empty($data['post_attributes'])) {
+            $data['post_attributes'] = [];
         }
 
-        $post = $postsTable->newEntity($data);
-        $post->post_attributes = $postAttributes;
-        return $postsTable->save($post);
+        $PostsTable = TableRegistry::get('Posts');
+        $AttributesTable = TableRegistry::get('PostAttributes');
+        $postAttributes = $data['post_attributes'];
+
+        $postColumns = $PostsTable->schema()->columns();
+        $validColumns = $this->schema()->fields();
+        foreach ($data as $key => $value) {
+            if (in_array($key, $postColumns)) {
+                continue;
+            }
+
+            unset($data[$key]);
+            if (!in_array($key, $validColumns)) {
+                continue;
+            }
+            $postAttributes[] = [
+                'name' => $key,
+                'value' => $value,
+            ];
+        }
+
+        $data['post_attributes'] = $postAttributes;
+
+        return $data;
     }
 
     public function get($key, $default = null)
