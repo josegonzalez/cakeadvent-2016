@@ -10,8 +10,8 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/', ['controller' => 'Posts', 'action' => 'home']);
     $routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
     $routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
-    $routes->connect('/forgot-password', ['controller' => 'Users', 'action' => 'forgot-password']);
-    $routes->connect('/reset-password/*', ['controller' => 'Users', 'action' => 'forgot-password']);
+    $routes->connect('/forgot-password', ['controller' => 'Users', 'action' => 'forgotPassword']);
+    $routes->connect('/reset-password/*', ['controller' => 'Users', 'action' => 'resetPassword']);
     $routes->connect(
         '/:url',
         ['controller' => 'Posts', 'action' => 'view'],
