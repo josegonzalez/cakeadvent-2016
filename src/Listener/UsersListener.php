@@ -145,7 +145,6 @@ class UsersListener extends BaseListener
         $this->_action()->config('scaffold.viewblocks', [
             'actions' => ['' => 'text'],
         ]);
-        $this->_action()->config('scaffold.sidebar_navigation', false);
         $this->_action()->config('scaffold.disable_extra_buttons', true);
         $this->_action()->config('scaffold.submit_button_text', 'Send Password Reset Email');
     }
@@ -171,7 +170,6 @@ class UsersListener extends BaseListener
         $this->_action()->config('scaffold.viewblocks', [
             'actions' => ['' => 'text'],
         ]);
-        $this->_action()->config('scaffold.sidebar_navigation', false);
         $this->_action()->config('scaffold.disable_extra_buttons', true);
         $this->_action()->config('scaffold.submit_button_text', 'Login');
     }
@@ -196,7 +194,6 @@ class UsersListener extends BaseListener
         $this->_action()->config('scaffold.viewblocks', [
             'actions' => ['' => 'text'],
         ]);
-        $this->_action()->config('scaffold.sidebar_navigation', false);
         $this->_action()->config('scaffold.disable_extra_buttons', true);
         $this->_action()->config('scaffold.submit_button_text', 'Reset Password');
     }

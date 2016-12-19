@@ -141,6 +141,7 @@ class AppController extends Controller
         });
 
         if ($this->Crud->isActionMapped()) {
+            $this->Crud->action()->config('scaffold.sidebar_navigation', false);
             $this->Crud->action()->config('scaffold.site_title', Configure::read('App.name'));
             $this->Crud->action()->config('scaffold.utility_navigation', $this->getUtilityNavigation());
         }
