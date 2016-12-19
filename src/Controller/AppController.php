@@ -202,6 +202,19 @@ class AppController extends Controller
      */
     protected function getUtilityNavigation()
     {
+        if ($this->Auth->user('id') === null) {
+            return [
+                new \CrudView\Menu\MenuItem(
+                    'Forgot Password?',
+                    ['controller' => 'Users', 'action' => 'forgotPassword']
+                ),
+                new \CrudView\Menu\MenuItem(
+                    'Login',
+                    ['controller' => 'Users', 'action' => 'login']
+                ),
+            ];
+        }
+
         return [
             new \CrudView\Menu\MenuItem(
                 'Posts',
