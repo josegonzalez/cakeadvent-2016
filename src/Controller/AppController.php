@@ -142,30 +142,7 @@ class AppController extends Controller
 
         if ($this->Crud->isActionMapped()) {
             $this->Crud->action()->config('scaffold.site_title', Configure::read('App.name'));
-            $this->Crud->action()->config('scaffold.tables_blacklist', [
-                'phinxlog',
-                'muffin_tokenize_phinxlog',
-                'post_attributes',
-                'tokenize_tokens',
-                'users',
-            ]);
-
-            $this->Crud->action()->config('scaffold.utility_navigation', [
-                new \CrudView\Menu\MenuItem(
-                    'Log Out',
-                    ['controller' => 'Users', 'action' => 'logout']
-                )
-            ]);
-            $this->Crud->action()->config('scaffold.sidebar_navigation', [
-                new \CrudView\Menu\MenuItem(
-                    'Posts',
-                    ['controller' => 'Posts', 'action' => 'index']
-                ),
-                new \CrudView\Menu\MenuItem(
-                    'Profile',
-                    ['controller' => 'Users', 'action' => 'edit']
-                ),
-            ]);
+            $this->Crud->action()->config('scaffold.utility_navigation', $this->getUtilityNavigation());
         }
 
         $isRest = in_array($this->response->type(), ['application/json', 'application/xml']);
@@ -216,6 +193,29 @@ class AppController extends Controller
             ]
         ]);
    }
+
+    /**
+     * Retrieves the navigation elements for the page
+     *
+     * @return array
+     */
+    protected function getUtilityNavigation()
+    {
+        return [
+            new \CrudView\Menu\MenuItem(
+                'Posts',
+                ['controller' => 'Posts', 'action' => 'index']
+            ),
+            new \CrudView\Menu\MenuItem(
+                'Profile',
+                ['controller' => 'Users', 'action' => 'edit']
+            ),
+            new \CrudView\Menu\MenuItem(
+                'Log Out',
+                ['controller' => 'Users', 'action' => 'logout']
+            )
+        ];
+    }
 
     /**
      * Check if the provided user is authorized for the request.
