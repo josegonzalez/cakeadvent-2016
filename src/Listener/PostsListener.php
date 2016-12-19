@@ -52,6 +52,12 @@ class PostsListener extends BaseListener
      */
     public function beforeHandle(Event $event)
     {
+        if ($this->_request()->action === 'edit') {
+            $this->beforeHandleEdit($event);
+
+            return;
+        }
+
         if ($this->_request()->action === 'index') {
             $this->beforeHandleIndex($event);
 
@@ -151,6 +157,19 @@ class PostsListener extends BaseListener
         ]);
         $this->_action()->config('scaffold.actions_blacklist', [
             'view',
+        ]);
+    }
+
+    /**
+     * Before Handle Edit Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeHandleEdit(Event $event)
+    {
+        $this->_action()->config('scaffold.actions_blacklist', [
+            'home',
         ]);
     }
 
