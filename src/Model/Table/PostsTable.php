@@ -72,6 +72,27 @@ class PostsTable extends Table
             ->requirePresence('url', 'create')
             ->notEmpty('url');
 
+        $validator->add('url', 'notInList', [
+            'rule' => function ($value, $context) {
+                $list = ['/', '/about', '/home', '/contact', '/login', '/logout', '/forgot-password'];
+                $list = array_map('strval', $list);
+                return !in_array((string)$value, $list, true);
+            },
+            'message' => 'Reserved urls cannot be specified',
+        ]);
+        $validator->add('url', 'withoutPrefix', [
+            'rule' => function ($value, $context) {
+                if (preg_match("/^\/(admin|reset-password|verify)/", $value)) {
+                    return false;
+                }
+                if (preg_match("/^(admin|reset-password|verify)/", $value)) {
+                    return false;
+                }
+                return true;
+            },
+            'message' => 'Urls cannot start with "/admin", "/reset-password", or "/verify"',
+        ]);
+
         $validator
             ->requirePresence('status', 'create')
             ->notEmpty('status');
