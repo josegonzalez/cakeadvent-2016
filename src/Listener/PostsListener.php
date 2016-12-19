@@ -209,6 +209,7 @@ class PostsListener extends BaseListener
         $viewVars = $postType->viewVars();
         $viewVars['fields'] = $fields;
         $this->_controller()->set($viewVars);
+        $postType->mergeErrors($event->subject->entity->errors());
         $event->subject->set(['entity' => $postType]);
     }
 }

@@ -102,6 +102,19 @@ abstract class AbstractPostType extends Form
         return $this->templatePrefix() . '-view';
     }
 
+    public function mergeErrors(array $errors)
+    {
+        foreach ($errors as $field => $err) {
+            if (!isset($this->_errors[$field])) {
+                $this->_errors[$field] = $err;
+                continue;
+            }
+            foreach ($err as $name => $message) {
+                $this->_errors[$field][$name] = $message;
+            }
+        }
+    }
+
     protected function ensureUrl(array $data)
     {
         $url = trim(Hash::get($data, 'url', ''), '/');
