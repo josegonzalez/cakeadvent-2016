@@ -184,8 +184,18 @@ class AppController extends Controller
                 'controller' => 'Users',
                 'action' => 'login'
             ],
-            'loginRedirect' => '/',
-            'logoutRedirect' => '/',
+            'loginRedirect' => [
+                'plugin' => null,
+                'prefix' => false,
+                'controller' => 'Posts',
+                'action' => 'index',
+            ],
+            'logoutRedirect' => [
+                'plugin' => null,
+                'prefix' => false,
+                'controller' => 'Users',
+                'action' => 'login',
+            ],
             'authenticate' => [
                 'all' => [
                     'fields' => ['username' => 'email', 'password' => 'password'],
