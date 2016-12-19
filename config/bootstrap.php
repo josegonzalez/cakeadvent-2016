@@ -238,3 +238,5 @@ Plugin::load('CrudUsers');
 Plugin::load('Muffin/Tokenize', ['bootstrap' => true, 'routes' => true]);
 
 Plugin::load('BlogPostType', ['bootstrap' => true, 'routes' => false]);
+
+Plugin::load('PhotoPostType', ['bootstrap' => true, 'routes' => false]);
