@@ -149,6 +149,9 @@ class PostsListener extends BaseListener
                 'admin/Posts/index-actions' => 'element',
             ],
         ]);
+        $this->_action()->config('scaffold.actions_blacklist', [
+            'view',
+        ]);
     }
 
     /**
