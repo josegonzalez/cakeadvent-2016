@@ -46,6 +46,7 @@ abstract class AbstractPostType extends Form
         if (empty($data['post_attributes'])) {
             $data['post_attributes'] = [];
         }
+        $data = $this->transformData($data);
 
         $PostsTable = TableRegistry::get('Posts');
         $AttributesTable = TableRegistry::get('PostAttributes');
@@ -70,6 +71,11 @@ abstract class AbstractPostType extends Form
 
         $data['post_attributes'] = $postAttributes;
 
+        return $data;
+    }
+
+    public function transformData($data)
+    {
         return $data;
     }
 
