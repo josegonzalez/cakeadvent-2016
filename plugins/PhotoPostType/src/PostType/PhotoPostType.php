@@ -4,6 +4,9 @@ namespace PhotoPostType\PostType;
 use App\PostType\AbstractPostType;
 use Cake\Form\Schema;
 use Cake\Validation\Validator;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\AdapterInterface;
+use League\Flysystem\Filesystem;
 
 class PhotoPostType extends AbstractPostType
 {
@@ -37,5 +40,53 @@ class PhotoPostType extends AbstractPostType
             'message' => 'The uploaded photo was not a valid image'
         ]);
         return $validator;
+    }
+
+    public function transformData($data)
+    {
+        $photoExtension = pathinfo($data['photo']['name'], PATHINFO_EXTENSION);
+        $photoDirectory  = 'files/Posts/photo/' . uniqid();
+        $photoFilename = uniqid() . '.' . $photoExtension;
+        $photoPath = $photoDirectory . '/' . $photoFilename;
+        $postAttributes = [
+            ['name' => 'photo_dir', 'value' => $photoDirectory],
+            ['name' => 'photo', 'value' => $data['photo']['name']],
+            ['name' => 'photo_path', 'value' => $photoPath],
+        ];
+
+        $success = $this->writeFile($data['photo'], $photoPath);
+        unset($data['photo'], $data['photo_dir'], $data['photo_path'], $data['post_attributes']);
+        if (!$success) {
+            return $data;
+        }
+
+        $data['post_attributes'] = $postAttributes;
+
+        return $data;
+    }
+
+    protected function writeFile(array $filedata, $filepath)
+    {
+        $success = false;
+        $stream = @fopen($filedata['tmp_name'], 'r');
+        if ($stream === false) {
+            return $success;
+        }
+
+        $filesystem = $this->filesystem();
+        $success = $filesystem->writeStream($filepath, $stream);
+        fclose($stream);
+
+        return $success;
+    }
+
+    protected function filesystem()
+    {
+        $adapter = new Local(WWW_ROOT);
+        $filesystem = new Filesystem($adapter, [
+            'visibility' => AdapterInterface::VISIBILITY_PUBLIC
+        ]);
+
+        return $filesystem;
     }
 }
