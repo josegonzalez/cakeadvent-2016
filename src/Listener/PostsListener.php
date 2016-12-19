@@ -22,10 +22,26 @@ class PostsListener extends BaseListener
     public function implementedEvents()
     {
         return [
+            'Crud.beforeFind' => 'beforeFind',
             'Crud.beforeHandle' => 'beforeHandle',
             'Crud.beforeRender' => 'beforeRender',
             'Crud.beforeSave' => 'beforeSave',
         ];
+    }
+
+    /**
+     * Before Find
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeFind(Event $event)
+    {
+        if ($this->_request()->action === 'view') {
+            $this->beforeFindView($event);
+
+            return;
+        }
     }
 
     /**
@@ -95,6 +111,17 @@ class PostsListener extends BaseListener
 
         $PostsTable = TableRegistry::get('Posts');
         $PostsTable->patchEntity($event->subject->entity, $data);
+    }
+
+    /**
+     * Before Find View Action
+     *
+     * @param \Cake\Event\Event $event Event
+     * @return void
+     */
+    public function beforeFindView(Event $event)
+    {
+        $event->subject->query->contain(['PostAttributes']);
     }
 
     /**

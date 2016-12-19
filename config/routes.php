@@ -12,6 +12,11 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
     $routes->connect('/forgot-password', ['controller' => 'Users', 'action' => 'forgot-password']);
     $routes->connect('/reset-password/*', ['controller' => 'Users', 'action' => 'forgot-password']);
+    $routes->connect(
+        '/:url',
+        ['controller' => 'Posts', 'action' => 'view'],
+        ['routeClass' => 'PostRoute']
+    );
 });
 
 Router::scope('/admin', function (RouteBuilder $routes) {

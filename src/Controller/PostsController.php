@@ -39,7 +39,7 @@ class PostsController extends AppController
 
         $this->Crud->addListener('Users', 'App\Listener\PostsListener');
         $this->Crud->mapAction('home', 'Crud.Index');
-        $this->Auth->allow(['home']);
+        $this->Auth->allow(['home', 'view']);
     }
 
     /**
