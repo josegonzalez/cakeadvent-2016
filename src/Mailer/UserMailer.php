@@ -2,9 +2,13 @@
 namespace App\Mailer;
 
 use Cake\Mailer\Mailer;
+use Josegonzalez\MailPreview\Mailer\PreviewTrait;
 
 class UserMailer extends Mailer
 {
+
+    use PreviewTrait;
+
     /**
      * Email sent on password recovery requests
      *

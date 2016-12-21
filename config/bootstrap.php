@@ -242,3 +242,5 @@ Plugin::load('BlogPostType', ['bootstrap' => true, 'routes' => false]);
 Plugin::load('PhotoPostType', ['bootstrap' => true, 'routes' => false]);
 
 Plugin::load('DefaultTheme');
+
+Plugin::load('Josegonzalez/MailPreview', ['routes' => true]);

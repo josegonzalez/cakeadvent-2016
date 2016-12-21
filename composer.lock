@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7f7e5d04e4a751da684d107c2fe649cc",
-    "content-hash": "7e878adcccb05f1f840e5ba2bd61c58a",
+    "hash": "86bd7dea5a8d47742acfa3d8e71ea168",
+    "content-hash": "db6a75caa1c5fac840a90c8ad98a63d7",
     "packages": [
         {
             "name": "airbrake/phpbrake",
@@ -726,6 +726,58 @@
                 "search"
             ],
             "time": "2016-05-17 15:22:34"
+        },
+        {
+            "name": "josegonzalez/cakephp-mail-preview",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/josegonzalez/cakephp-mail-preview.git",
+                "reference": "870c7dff7cfac55d193d05b133dfc2be7a2db26e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/josegonzalez/cakephp-mail-preview/zipball/870c7dff7cfac55d193d05b133dfc2be7a2db26e",
+                "reference": "870c7dff7cfac55d193d05b133dfc2be7a2db26e",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "dev-master",
+                "phpunit/phpunit": "*",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Josegonzalez\\MailPreview\\": "src",
+                    "Josegonzalez\\MailPreview\\Test\\Fixture\\": "tests\\Fixture"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jose Diaz-Gonzalez",
+                    "email": "cakephp+mail-preview@josediazgonzalez.com",
+                    "homepage": "http://josediazgonzalez.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "CakePHP plugin for use with previewing emails during development",
+            "homepage": "https://github.com/josegonzalez/cakephp-mail-preview",
+            "keywords": [
+                "cakephp",
+                "email",
+                "mail",
+                "preview"
+            ],
+            "time": "2016-12-21 00:33:33"
         },
         {
             "name": "josegonzalez/cakephp-queuesadilla",

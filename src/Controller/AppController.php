@@ -111,12 +111,9 @@ class AppController extends Controller
             }
         }
 
-        /*
-         * Enable the following components for recommended CakePHP security settings.
-         * see http://book.cakephp.org/3.0/en/controllers/components/security.html
-         */
-        //$this->loadComponent('Security');
-        //$this->loadComponent('Csrf');
+        if ($this->request->params['controller'] == 'MailPreview') {
+            $this->Auth->allow();
+        }
     }
 
     /**

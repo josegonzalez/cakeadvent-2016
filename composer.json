@@ -29,7 +29,8 @@
         "josegonzalez/queuesadilla": "*",
         "josegonzalez/php-error-handlers": "0.*",
         "friendsofcake/crud-users": "^0.3.0",
-        "muffin/tokenize": "^1.0@dev"
+        "muffin/tokenize": "^1.0@dev",
+        "josegonzalez/cakephp-mail-preview": "0.0.1"
     },
     "require-dev": {
         "psy/psysh": "@stable",

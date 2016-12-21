@@ -2,6 +2,7 @@
 use Cake\Routing\Router;
 $url = Router::url(
     [
+        'plugin' => null,
         'controller' => 'users',
         'action' => 'resetPassword',
         $token
