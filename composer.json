@@ -30,7 +30,8 @@
         "josegonzalez/php-error-handlers": "0.*",
         "friendsofcake/crud-users": "^0.3.0",
         "muffin/tokenize": "^1.0@dev",
-        "josegonzalez/cakephp-mail-preview": "0.0.1"
+        "josegonzalez/cakephp-mail-preview": "0.0.1",
+        "stripe/stripe-php": "^4.3"
     },
     "require-dev": {
         "psy/psysh": "@stable",

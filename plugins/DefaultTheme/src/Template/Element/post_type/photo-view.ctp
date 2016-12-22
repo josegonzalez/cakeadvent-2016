@@ -5,3 +5,5 @@
 <section class="post-excerpt" itemprop="description">
     <?= $this->Html->image('../' . $post->get('photo_path')) ?>
 </section>
+
+<?= $this->element('stripe', ['post' => $post]); ?>

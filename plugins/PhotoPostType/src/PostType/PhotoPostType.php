@@ -47,6 +47,16 @@ class PhotoPostType extends AbstractPostType
         return $validator;
     }
 
+    public function getPriceInCents()
+    {
+        $price = $this->get('price');
+        if (empty($price)) {
+            return 0;
+        }
+
+        return $price * 100;
+    }
+
     public function transformData($data)
     {
         $photoExtension = pathinfo($data['photo']['name'], PATHINFO_EXTENSION);

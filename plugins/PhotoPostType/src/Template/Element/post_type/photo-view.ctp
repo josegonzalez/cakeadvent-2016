@@ -2,3 +2,5 @@
 <div>
     <?= $this->Html->image('../' . $post->get('photo_path')) ?>
 </div>
+
+<?= $this->element('stripe', ['post' => $post]); ?>
