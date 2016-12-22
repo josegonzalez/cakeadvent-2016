@@ -21,6 +21,7 @@ class UserMailer extends Mailer
         return $this->to($email)
             ->subject('Reset your password')
             ->template('forgot_password')
+            ->layout(false)
             ->set([
                 'token' => $token,
             ])
