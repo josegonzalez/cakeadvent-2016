@@ -16,6 +16,7 @@ class PhotoPostType extends AbstractPostType
         $schema->addField('photo', ['type' => 'file']);
         $schema->addField('photo_dir', ['type' => 'hidden']);
         $schema->addField('photo_path', ['type' => 'hidden']);
+        $schema->addField('price', ['type' => 'text']);
         return $schema;
     }
 
@@ -38,6 +39,10 @@ class PhotoPostType extends AbstractPostType
                 'optional' => true,
             ]],
             'message' => 'The uploaded photo was not a valid image'
+        ]);
+        $validator->allowEmpty('price');
+        $validator->add('price', 'numeric', [
+            'rule' => ['naturalNumber', true]
         ]);
         return $validator;
     }
