@@ -18,7 +18,7 @@ class OrdersController extends AppController
      *
      * @var array
      */
-    protected $adminActions = ['index', 'delete'];
+    protected $adminActions = ['index', 'delete', 'setShipped'];
 
     /**
      * Initialization hook method.
@@ -36,6 +36,10 @@ class OrdersController extends AppController
         $this->Crud->config('actions.add', null);
         $this->Crud->config('actions.edit', null);
         $this->Crud->config('actions.view', null);
+        $this->Crud->mapAction('setShipped', [
+            'className' => 'Crud.Bulk/SetValue',
+            'field' => 'shipped',
+        ]);
         $this->Auth->allow('order');
     }
 
