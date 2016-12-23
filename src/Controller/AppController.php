@@ -213,11 +213,11 @@ class AppController extends Controller
             return [
                 new \CrudView\Menu\MenuItem(
                     'Forgot Password?',
-                    ['controller' => 'Users', 'action' => 'forgotPassword']
+                    ['plugin' => null, 'controller' => 'Users', 'action' => 'forgotPassword']
                 ),
                 new \CrudView\Menu\MenuItem(
                     'Login',
-                    ['controller' => 'Users', 'action' => 'login']
+                    ['plugin' => null, 'controller' => 'Users', 'action' => 'login']
                 ),
             ];
         }
@@ -225,15 +225,19 @@ class AppController extends Controller
         return [
             new \CrudView\Menu\MenuItem(
                 'Posts',
-                ['controller' => 'Posts', 'action' => 'index']
+                ['plugin' => null, 'controller' => 'Posts', 'action' => 'index']
+            ),
+            new \CrudView\Menu\MenuItem(
+                'Orders',
+                ['plugin' => 'PhotoPostType', 'controller' => 'Orders', 'action' => 'index']
             ),
             new \CrudView\Menu\MenuItem(
                 'Profile',
-                ['controller' => 'Users', 'action' => 'edit']
+                ['plugin' => null, 'controller' => 'Users', 'action' => 'edit']
             ),
             new \CrudView\Menu\MenuItem(
                 'Log Out',
-                ['controller' => 'Users', 'action' => 'logout']
+                ['plugin' => null, 'controller' => 'Users', 'action' => 'logout']
             )
         ];
     }
