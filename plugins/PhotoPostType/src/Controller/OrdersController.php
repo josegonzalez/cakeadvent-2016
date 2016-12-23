@@ -33,6 +33,9 @@ class OrdersController extends AppController
     {
         parent::initialize();
         $this->Crud->addListener('Orders', 'PhotoPostType\Listener\OrdersListener');
+        $this->Crud->config('actions.add', null);
+        $this->Crud->config('actions.edit', null);
+        $this->Crud->config('actions.view', null);
         $this->Auth->allow('order');
     }
 
