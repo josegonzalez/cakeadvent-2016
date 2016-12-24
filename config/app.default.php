@@ -353,4 +353,19 @@ return [
         ],
     ],
 
+    /**
+     * Configures Stripe
+     */
+    'Stripe' => [
+        'publishablekey' => env('STRIPE_PUBLISHABLEKEY', 'pk_test_1234'),
+        'secretkey' => env('STRIPE_SECRETKEY', 'sk_test_abcd'),
+        'mode' => env('STRIPE_MODE', 'test')
+    ],
+
+    /**
+     * Sets primary config for our app (email, etc.)
+     */
+    'Primary' => [
+        'email' => env('PRIMARY_EMAIL', 'example@example.com'),
+    ],
 ];
