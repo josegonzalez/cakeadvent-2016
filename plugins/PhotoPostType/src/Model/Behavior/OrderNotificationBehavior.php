@@ -1,10 +1,10 @@
 <?php
-namespace PhotoPostType\Table\Behavior;
+namespace PhotoPostType\Model\Behavior;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Josegonzalez\CakeQueuesadilla\Traits;
+use Josegonzalez\CakeQueuesadilla\Traits\QueueTrait;
 
 class OrderNotificationBehavior extends Behavior
 {
@@ -17,8 +17,7 @@ class OrderNotificationBehavior extends Behavior
                 'action' => 'received',
                 'mailer' => 'PhotoPostType.Orders',
                 'data' => [
-                    'order_id' => $entity->id
-
+                    'order_id' => $entity->id,
                     'email' => $entity->email,
                     'name' => $entity->shipping_name,
                     'address_line_1' => $entity->shipping_address_line_1,
@@ -32,7 +31,7 @@ class OrderNotificationBehavior extends Behavior
             $this->push(['\App\Job\MailerJob', 'execute'], [
                 'action' => 'newOrder',
                 'mailer' => 'PhotoPostType.Orders',
-                'data' => [;
+                'data' => [
                     'order_id' => $entity->id
                 ],
             ]);
@@ -40,6 +39,9 @@ class OrderNotificationBehavior extends Behavior
             $this->push(['\App\Job\MailerJob', 'execute'], [
                 'action' => 'shipped',
                 'mailer' => 'PhotoPostType.Orders',
+                'data' => [
+                    'order_id' => $entity->id
+                ],
             ]);
         }
     }

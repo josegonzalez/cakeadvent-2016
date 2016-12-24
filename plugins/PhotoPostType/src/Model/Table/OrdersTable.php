@@ -37,7 +37,7 @@ class OrdersTable extends Table
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
-        $this->addBehavior('OrderNotificationBehavior');
+        $this->addBehavior('PhotoPostType.OrderNotification');
     }
 
     /**
