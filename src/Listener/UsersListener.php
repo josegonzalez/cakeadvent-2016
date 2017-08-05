@@ -40,7 +40,7 @@ class UsersListener extends BaseListener
         }
 
         $table = TableRegistry::get($this->_controller()->modelClass);
-        $token = $table->tokenize($event->subject->entity->id);
+        $token = $table->tokenize($event->subject->entity->id)->token;
 
         Queue::push(['\App\Job\MailerJob', 'execute'], [
             'action' => 'forgotPassword',
