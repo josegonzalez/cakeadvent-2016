@@ -53,6 +53,14 @@ class AppController extends Controller
     protected $adminActions = [];
 
     /**
+     * A list of actions that should be allowed for
+     * authenticated users
+     *
+     * @var array
+     */
+    protected $allowedActions = [];
+
+    /**
      * A list of actions where the Crud.SearchListener
      * and Search.PrgComponent should be enabled
      *
@@ -247,6 +255,10 @@ class AppController extends Controller
      */
     public function isAuthorized($user = null)
     {
+        $action = $this->request->getParam('action');
+        if (in_array($action, $this->allowedActions)) {
+            return true;
+        }
         return false;
     }
 }

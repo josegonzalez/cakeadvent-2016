@@ -25,6 +25,19 @@ class PostsController extends AppController
     protected $adminActions = ['index', 'add', 'edit', 'delete'];
 
     /**
+     * A list of actions that should be allowed for
+     * authenticated users
+     *
+     * @var array
+     */
+    protected $allowedActions = [
+        'index',
+        'add',
+        'edit',
+        'delete',
+    ];
+
+    /**
      * Initialization hook method.
      *
      * Use this method to add common initialization code like loading components.
@@ -40,21 +53,5 @@ class PostsController extends AppController
         $this->Crud->addListener('Posts', 'App\Listener\PostsListener');
         $this->Crud->mapAction('home', 'Crud.Index');
         $this->Auth->allow(['home', 'view']);
-    }
-
-    /**
-     * Check if the provided user is authorized for the request.
-     *
-     * @param array|\ArrayAccess|null $user The user to check the authorization of.
-     *   If empty the user fetched from storage will be used.
-     * @return bool True if $user is authorized, otherwise false
-     */
-    public function isAuthorized($user = null)
-    {
-        $action = $this->request->param('action');
-        if (in_array($action, $this->adminActions) || $action == 'delete') {
-            return true;
-        }
-        return parent::isAuthorized($user);
     }
 }
