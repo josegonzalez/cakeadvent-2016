@@ -1,9 +1,11 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 
 /**
@@ -77,14 +79,16 @@ class PostsTable extends Table
 
         $validator->add('url', 'notInList', [
             'rule' => function ($value, $context) {
+                $value = '/' . trim(trim((string)$value), '/');
                 $list = ['/', '/about', '/home', '/contact', '/login', '/logout', '/forgot-password'];
                 $list = array_map('strval', $list);
-                return !in_array((string)$value, $list, true);
+                return !in_array($value, $list, true);
             },
             'message' => 'Reserved urls cannot be specified',
         ]);
         $validator->add('url', 'withoutPrefix', [
             'rule' => function ($value, $context) {
+                $value = '/' . trim(trim((string)$value), '/');
                 if (preg_match("/^\/(admin|reset-password|verify)/", $value)) {
                     return false;
                 }
@@ -103,6 +107,16 @@ class PostsTable extends Table
         return $validator;
     }
 
+    public function beforeMarshal(Event $event, $data, $options)
+    {
+        if (empty($data['url'])) {
+            $title = strtolower(Hash::get($data, 'title', ''));
+            $data['url'] = Inflector::dasherize($title);
+        }
+
+        $data['url'] = '/' . trim(trim((string)$data['url']), '/');
+    }
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -113,7 +127,7 @@ class PostsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->isUnique(['url']));
+        $rules->add($rules->isUnique(['url'], 'This route name is already in use'));
 
         return $rules;
     }

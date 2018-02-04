@@ -140,12 +140,13 @@ abstract class AbstractPostType extends Form
 
     protected function ensureUrl(array $data)
     {
-        $url = trim(Hash::get($data, 'url', ''), '/');
-        if (strlen($url) !== 0) {
-            return $url;
+        $url = '/' . trim(trim((string)Hash::get($data, 'url', ''), '/'));
+        if (strlen($url) === 0 || $url === '/') {
+            $url = trim(trim((string)Hash::get($data, 'title', ''), '/'));
+            $url = '/' . Inflector::dasherize(Inflector::classify($url));
         }
 
-        return Hash::get($data, 'title', '');
+        return $url;
     }
 
     protected function templatePrefix()
