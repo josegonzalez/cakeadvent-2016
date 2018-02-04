@@ -222,3 +222,4 @@ Plugin::load('PhotoPostType', ['bootstrap' => true, 'routes' => true]);
 
 Plugin::load('DefaultTheme');
 
+Plugin::load(Configure::read('App.theme', 'DefaultTheme'), ['bootstrap' => true, 'routes' => true]);

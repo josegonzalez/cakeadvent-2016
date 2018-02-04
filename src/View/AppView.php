@@ -13,6 +13,7 @@
  */
 namespace App\View;
 
+use Cake\Core\Configure;
 use Cake\View\View;
 
 /**
@@ -36,6 +37,7 @@ class AppView extends View
      */
     public function initialize()
     {
-        $this->theme('DefaultTheme');
+        $this->theme(Configure::read('App.theme', 'DefaultTheme'));
+        $event = $this->dispatchEvent('View.initialize');
     }
 }
