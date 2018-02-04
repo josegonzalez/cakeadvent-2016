@@ -30,13 +30,13 @@ class OrdersListener extends BaseListener
      */
     public function beforeHandle(Event $event)
     {
-        if ($event->subject->action === 'index') {
+        if ($event->getSubject()->action === 'index') {
             $this->beforeHandleIndex($event);
 
             return;
         }
 
-        if ($event->subject->action === 'setShipped') {
+        if ($event->getSubject()->action === 'setShipped') {
             $this->beforeHandleSetShipped($event);
 
             return;

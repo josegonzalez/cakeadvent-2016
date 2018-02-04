@@ -110,10 +110,6 @@ class AppController extends Controller
             } catch (UnexpectedValueException $e) {
             }
         }
-
-        if ($this->request->params['controller'] == 'MailPreview') {
-            $this->Auth->allow();
-        }
     }
 
     /**

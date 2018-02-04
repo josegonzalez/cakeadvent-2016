@@ -15,14 +15,14 @@ trait PostTypesTrait
             return static::$postTypes;
         }
 
-        $event = new Event('Posts.PostTypes.get');
-        $event->subject = new Subject([
+        $subject = new Subject([
             'postTypes' => [],
         ]);
+        $event = new Event('Posts.PostTypes.get', $subject);
 
         EventManager::instance()->dispatch($event);
-        if (!empty($event->subject->postTypes)) {
-            static::$postTypes = $event->subject->postTypes;
+        if (!empty($event->getSubject()->postTypes)) {
+            static::$postTypes = $event->getSubject()->postTypes;
         } else {
             static::$postTypes = [];
         }

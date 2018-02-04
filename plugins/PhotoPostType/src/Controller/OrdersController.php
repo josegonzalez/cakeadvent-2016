@@ -52,7 +52,7 @@ class OrdersController extends AppController
      */
     public function isAuthorized($user = null)
     {
-        $action = $this->request->param('action');
+        $action = $this->request->getParam('action');
         if (in_array($action, $this->adminActions)) {
             return true;
         }

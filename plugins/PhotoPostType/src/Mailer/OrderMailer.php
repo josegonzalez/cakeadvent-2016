@@ -3,13 +3,9 @@ namespace PhotoPostType\Mailer;
 
 use Cake\Core\Configure;
 use Cake\Mailer\Mailer;
-use Josegonzalez\MailPreview\Mailer\PreviewTrait;
 
 class OrderMailer extends Mailer
 {
-
-    use PreviewTrait;
-
     /**
      * Email sent on order received
      *

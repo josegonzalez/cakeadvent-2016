@@ -100,23 +100,23 @@ class PostsListener extends BaseListener
      */
     public function beforeSave(Event $event)
     {
-        $type = $event->subject->entity->type;
+        $type = $event->getSubject()->entity->type;
         if (empty($type)) {
-            $passedArgs = $this->_request()->param('pass');
+            $passedArgs = $this->_request()->getParam('pass');
             $type = $passedArgs[0];
         }
 
-        $event->subject->entity->type = $type;
+        $event->getSubject()->entity->type = $type;
 
         $data = [
             'user_id' => $this->_controller()->Auth->user('id'),
             'type' => $type,
         ] + $this->_request()->data() + ['published_date' => Time::now()];
-        $postType = $event->subject->entity->getPostType();
+        $postType = $event->getSubject()->entity->getPostType();
         $data = $postType->execute($data);
 
         $PostsTable = TableRegistry::get('Posts');
-        $PostsTable->patchEntity($event->subject->entity, $data);
+        $PostsTable->patchEntity($event->getSubject()->entity, $data);
     }
 
     /**
@@ -127,7 +127,7 @@ class PostsListener extends BaseListener
      */
     public function beforeFindView(Event $event)
     {
-        $event->subject->query->contain(['PostAttributes']);
+        $event->getSubject()->query->contain(['PostAttributes']);
     }
 
     /**
@@ -212,7 +212,7 @@ class PostsListener extends BaseListener
      */
     public function beforeRenderAdd(Event $event)
     {
-        $passedArgs = $this->_request()->param('pass');
+        $passedArgs = $this->_request()->getParam('pass');
         if (!PostsTable::isValidPostType($passedArgs)) {
             return $this->_controller()->redirect([
                 'controller' => 'Posts',
@@ -220,8 +220,8 @@ class PostsListener extends BaseListener
             ]);
         }
 
-        $event->subject->entity->type = $passedArgs[0];
-        $this->_setPostType($event, $event->subject->entity->getPostType());
+        $event->getSubject()->entity->type = $passedArgs[0];
+        $this->_setPostType($event, $event->getSubject()->entity->getPostType());
     }
 
     /**
@@ -232,10 +232,10 @@ class PostsListener extends BaseListener
      */
     public function beforeRenderEdit(Event $event)
     {
-        $entity = $event->subject->entity;
+        $entity = $event->getSubject()->entity;
         $this->_setPostType($event, $entity->getPostType());
         if ($this->_request()->is('get')) {
-            $this->_request()->data = $event->subject->entity->data($entity);
+            $this->_request()->data = $event->getSubject()->entity->data($entity);
         }
     }
 
@@ -258,7 +258,7 @@ class PostsListener extends BaseListener
         $viewVars = $postType->viewVars();
         $viewVars['fields'] = $fields;
         $this->_controller()->set($viewVars);
-        $postType->mergeErrors($event->subject->entity->errors());
-        $event->subject->set(['entity' => $postType]);
+        $postType->mergeErrors($event->getSubject()->entity->errors());
+        $event->getSubject()->set(['entity' => $postType]);
     }
 }
