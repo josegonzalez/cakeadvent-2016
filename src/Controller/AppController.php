@@ -101,7 +101,7 @@ class AppController extends Controller
             ],
         ]);
 
-        if ($this->isAdmin || in_array($this->request->action, $this->adminActions)) {
+        if ($this->isCrudView()) {
             $this->Crud->addListener('CrudView.View');
         }
 
@@ -147,9 +147,7 @@ class AppController extends Controller
             $this->Crud->action()->config('scaffold.utility_navigation', $this->getUtilityNavigation());
         }
 
-        $isRest = in_array($this->response->type(), ['application/json', 'application/xml']);
-        $isAdmin = $this->isAdmin || in_array($this->request->action, $this->adminActions);
-        if (!$isRest && $isAdmin) {
+        if ($this->isCrudView()) {
             $this->viewBuilder()->className('CrudView\View\CrudView');
         }
     }
@@ -260,5 +258,17 @@ class AppController extends Controller
             return true;
         }
         return false;
+    }
+
+    /**
+     * Check if the current request should be responded with via CrudView
+     *
+     * @return bool
+     */
+    protected function isCrudView()
+    {
+        $isRest = in_array($this->response->type(), ['application/json', 'application/xml']);
+        $isAdmin = $this->isAdmin || in_array($this->request->action, $this->adminActions);
+        return !$isRest && $isAdmin;
     }
 }
