@@ -7,3 +7,6 @@
 /webroot/cache_img
 /webroot/cache_js
 /webroot/files
+/plugins/*Theme
+!/plugins/DefaultTheme
+/webroot/*_theme
