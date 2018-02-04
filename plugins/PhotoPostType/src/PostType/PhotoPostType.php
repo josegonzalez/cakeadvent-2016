@@ -82,6 +82,16 @@ class PhotoPostType extends AbstractPostType
         return $validator;
     }
 
+    public function getPhotoUrl($rewrite = true)
+    {
+        $url = '../' . $this->get('photo_path');
+        if ($rewrite === true) {
+            $url = str_replace('../files/Posts/', '', $url);
+        }
+
+        return $url;
+    }
+
     public function getPriceInCents()
     {
         $price = $this->get('price');

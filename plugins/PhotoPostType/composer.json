@@ -4,7 +4,8 @@
     "type": "cakephp-plugin",
     "require": {
         "php": ">=5.5.9",
-        "cakephp/cakephp": ">=3.3.2 <4.0.0"
+        "cakephp/cakephp": ">=3.5.0 <4.0.0",
+        "admad/cakephp-glide": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "*"

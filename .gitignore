@@ -4,5 +4,6 @@
 /logs/*
 .env
 /webroot/cache_css
+/webroot/cache_img
 /webroot/cache_js
 /webroot/files
