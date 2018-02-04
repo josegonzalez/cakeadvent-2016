@@ -10,14 +10,15 @@ class BlogPostType extends AbstractPostType
     protected function _buildSchema(Schema $schema)
     {
         $schema = parent::_buildSchema($schema);
-        $schema->addField('body', ['type' => 'textarea']);
+        $this->_addField($schema, 'body', 'textarea');
+
         return $schema;
     }
 
-    protected function _buildValidator(Validator $validator)
+    public function validationBody(Validator $validator)
     {
-        $validator = parent::_buildValidator($validator);
         $validator->notEmpty('body', 'Please fill this field');
+
         return $validator;
     }
 }

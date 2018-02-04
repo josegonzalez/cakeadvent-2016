@@ -3,6 +3,7 @@ namespace App\Listener;
 
 use App\Model\Table\PostsTable;
 use App\PostType\AbstractPostType;
+use Cake\Collection\Collection;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\I18n\Time;
@@ -114,9 +115,22 @@ class PostsListener extends BaseListener
         ] + $this->_request()->data() + ['published_date' => Time::now()];
         $postType = $event->getSubject()->entity->getPostType();
         $data = $postType->execute($data);
+        if ($data === false) {
+            $event->stopPropagation();
+            return;
+        }
+
+        $collection = new Collection($data['post_attributes']);
+        $PostAttributesTable = TableRegistry::get('PostAttributes');
+        $postAttributes = $collection->map(function ($data) use ($PostAttributesTable) {
+            return $PostAttributesTable->newEntity($data, ['validate' => false]);
+        })->toArray();
+
+        unset($data['post_attributes']);
 
         $PostsTable = TableRegistry::get('Posts');
         $PostsTable->patchEntity($event->getSubject()->entity, $data);
+        $event->getSubject()->entity->post_attributes = $postAttributes;
     }
 
     /**
@@ -250,9 +264,14 @@ class PostsListener extends BaseListener
     {
         $fields = [];
         foreach ($postType->schema()->fields() as $field) {
-            $fields[$field] = [
-                'type' => $postType->schema()->fieldType($field)
-            ];
+            $formConfig = ['type' => $postType->schema()->fieldType($field)];
+
+            $fieldConfig = $postType->schema()->field($field);
+            if ($fieldConfig['label'] !== null) {
+                $formConfig['label'] = $fieldConfig['label'];
+            }
+
+            $fields[$field] = $formConfig;
         }
 
         $viewVars = $postType->viewVars();

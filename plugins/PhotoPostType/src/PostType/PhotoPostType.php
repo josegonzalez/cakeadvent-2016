@@ -2,6 +2,7 @@
 namespace PhotoPostType\PostType;
 
 use App\PostType\AbstractPostType;
+use Cake\Collection\Collection;
 use Cake\Form\Schema;
 use Cake\Validation\Validator;
 use League\Flysystem\Adapter\Local;
@@ -13,17 +14,24 @@ class PhotoPostType extends AbstractPostType
     protected function _buildSchema(Schema $schema)
     {
         $schema = parent::_buildSchema($schema);
-        $schema->addField('photo', ['type' => 'file']);
-        $schema->addField('photo_dir', ['type' => 'hidden']);
-        $schema->addField('photo_path', ['type' => 'hidden']);
-        $schema->addField('price', ['type' => 'text']);
+        $this->_addField($schema, 'series', 'text');
+        $this->_addField($schema, 'photo', 'file');
+        $this->_addField($schema, 'photo_dir', 'hidden');
+        $this->_addField($schema, 'photo_path', 'hidden');
+        $this->_addField($schema, 'price', 'text');
+        $this->_addField($schema, 'description', 'textarea');
         return $schema;
     }
 
-    protected function _buildValidator(Validator $validator)
+    /**
+     * Photo validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationPhoto(Validator $validator)
     {
-        $validator = parent::_buildValidator($validator);
-        $validator->add('photo', 'valid-image', [
+        $validator->add('value', 'valid-image', [
             'rule' => ['uploadedFile', [
                 'types' => [
                     'image/bmp',
@@ -40,10 +48,37 @@ class PhotoPostType extends AbstractPostType
             ]],
             'message' => 'The uploaded photo was not a valid image'
         ]);
-        $validator->allowEmpty('price');
-        $validator->add('price', 'numeric', [
-            'rule' => ['naturalNumber', true]
+
+        return $validator;
+    }
+
+    /**
+     * Price validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationPrice(Validator $validator)
+    {
+        $validator->allowEmpty('value', true);
+        $validator->add('value', 'numeric', [
+            'rule' => ['naturalNumber', true],
+            'message' => 'This field must be a number',
         ]);
+
+        return $validator;
+    }
+
+    /**
+     * Description validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDescription(Validator $validator)
+    {
+        $validator->allowEmpty('value', true);
+
         return $validator;
     }
 
@@ -59,18 +94,21 @@ class PhotoPostType extends AbstractPostType
 
     public function transformData($data)
     {
-        $photoExtension = pathinfo($data['photo']['name'], PATHINFO_EXTENSION);
+        $photoData = (new Collection($data['post_attributes']))->filter(function($data) {
+            return $data['name'] === 'photo';
+        })->first();
+
+        $photoExtension = pathinfo($photoData['value']['name'], PATHINFO_EXTENSION);
         $photoDirectory  = 'files/Posts/photo/' . uniqid();
         $photoFilename = uniqid() . '.' . $photoExtension;
         $photoPath = $photoDirectory . '/' . $photoFilename;
         $postAttributes = [
             ['name' => 'photo_dir', 'value' => $photoDirectory],
-            ['name' => 'photo', 'value' => $data['photo']['name']],
+            ['name' => 'photo', 'value' => $photoData['value']['name']],
             ['name' => 'photo_path', 'value' => $photoPath],
         ];
 
-        $success = $this->writeFile($data['photo'], $photoPath);
-        unset($data['photo'], $data['photo_dir'], $data['photo_path'], $data['post_attributes']);
+        $success = $this->writeFile($photoData['value'], $photoPath);
         if (!$success) {
             return $data;
         }

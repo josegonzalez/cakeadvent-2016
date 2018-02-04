@@ -48,7 +48,10 @@ class PostsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('PostAttributes', [
-            'foreignKey' => 'post_id'
+            'cascadeCallbacks' => true,
+            'dependent' => true,
+            'foreignKey' => 'post_id',
+            'saveStrategy' => 'replace',
         ]);
     }
 

@@ -40,6 +40,8 @@ class PostAttributesTable extends Table
             'foreignKey' => 'post_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->_validatorClass = '\App\Validation\PostAttributesValidator';
     }
 
     /**

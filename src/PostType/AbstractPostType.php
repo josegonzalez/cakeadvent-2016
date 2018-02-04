@@ -1,6 +1,7 @@
 <?php
 namespace App\PostType;
 
+use App\Form\PostTypeSchema;
 use App\Model\Entity\Post;
 use Cake\Core\Configure;
 use Cake\Form\Form;
@@ -14,6 +15,8 @@ abstract class AbstractPostType extends Form
 {
     protected $_post = null;
 
+    protected $_fields = [];
+
     public function __construct(Post $post = null)
     {
         if ($post !== null) {
@@ -21,12 +24,55 @@ abstract class AbstractPostType extends Form
         }
     }
 
+    protected function _addField(Schema $schema, $field, $fieldtype)
+    {
+        $post = $this->_post;
+        $iteration = count($this->_fields);
+        $schema->addField(sprintf('post_attributes.%d.post_id', $iteration), [
+            'default' => $post->isNew() ? null : $post->id,
+            'type' => 'hidden',
+        ]);
+        $schema->addField(sprintf('post_attributes.%d.name', $iteration), [
+            'default' => $field,
+            'type' => 'hidden',
+        ]);
+
+        $attributeId = null;
+        $value = null;
+        if (!$post->isNew()) {
+            foreach ($post->post_attributes as $postAttribute) {
+                if ($postAttribute->name === $field) {
+                    $attributeId = $postAttribute->id;
+                    $value = $postAttribute->value;
+                    break;
+                }
+            }
+        }
+
+        $schema->addField(sprintf('post_attributes.%d.value', $iteration), [
+            'default' => $value,
+            'label' => __(Inflector::humanize(Inflector::underscore($field))),
+            'type' => $fieldtype,
+        ]);
+        $schema->addField(sprintf('post_attributes.%d.id', $iteration), [
+            'default' => $attributeId,
+            'type' => 'hidden',
+        ]);
+
+        $this->_fields[] = $field;
+    }
+
     protected function _buildSchema(Schema $schema)
     {
+        if (count($schema->fields()) === 0) {
+            $schema = new PostTypeSchema;
+        }
+
         $schema->addField('user_id', ['type' => 'hidden']);
         $schema->addField('title', ['type' => 'string']);
         $schema->addField('url', ['type' => 'string']);
         $schema->addField('status', ['type' => 'select']);
+
         return $schema;
     }
 
@@ -38,41 +84,18 @@ abstract class AbstractPostType extends Form
             'rule' => ['inList', ['active', 'inactive']],
             'message' => 'Status must be either active or inactive'
         ]);
+
         return $validator;
     }
 
     protected function _execute(array $data)
     {
+        $data['url'] = $this->ensureUrl($data);
         if (empty($data['post_attributes'])) {
             $data['post_attributes'] = [];
         }
-        $data = $this->transformData($data);
-        $data['url'] = $this->ensureUrl($data);
 
-        $PostsTable = TableRegistry::get('Posts');
-        $AttributesTable = TableRegistry::get('PostAttributes');
-        $postAttributes = $data['post_attributes'];
-
-        $postColumns = $PostsTable->schema()->columns();
-        $validColumns = $this->schema()->fields();
-        foreach ($data as $key => $value) {
-            if (in_array($key, $postColumns)) {
-                continue;
-            }
-
-            unset($data[$key]);
-            if (!in_array($key, $validColumns)) {
-                continue;
-            }
-            $postAttributes[] = [
-                'name' => $key,
-                'value' => $value,
-            ];
-        }
-
-        $data['post_attributes'] = $postAttributes;
-
-        return $data;
+        return $this->transformData($data);
     }
 
     public function transformData($data)
