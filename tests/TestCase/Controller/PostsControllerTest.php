@@ -16,9 +16,9 @@ class PostsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
+        'plugin.Users.users',
         'app.posts',
-        'app.users',
-        'app.post_attributes'
+        'app.post_attributes',
     ];
 
     /**

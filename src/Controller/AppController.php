@@ -178,7 +178,7 @@ class AppController extends Controller
         $this->loadComponent('Auth', [
             'authorize' => ['Controller'],
             'loginAction' => [
-                'plugin' => null,
+                'plugin' => 'Users',
                 'prefix' => false,
                 'controller' => 'Users',
                 'action' => 'login'
@@ -190,7 +190,7 @@ class AppController extends Controller
                 'action' => 'index',
             ],
             'logoutRedirect' => [
-                'plugin' => null,
+                'plugin' => 'Users',
                 'prefix' => false,
                 'controller' => 'Users',
                 'action' => 'login',
@@ -212,14 +212,12 @@ class AppController extends Controller
     protected function getUtilityNavigation()
     {
         if ($this->Auth->user('id') === null) {
+            $action = $this->request->getParam('action') == 'login' ? 'forgotPassword' : 'login';
+            $text = $this->request->getParam('action') == 'login' ? 'Forgot Password?' : 'Login';
             return [
                 new \CrudView\Menu\MenuItem(
-                    'Forgot Password?',
-                    ['plugin' => null, 'controller' => 'Users', 'action' => 'forgotPassword']
-                ),
-                new \CrudView\Menu\MenuItem(
-                    'Login',
-                    ['plugin' => null, 'controller' => 'Users', 'action' => 'login']
+                    $text,
+                    ['plugin' => 'Users', 'controller' => 'Users', 'action' => $action]
                 ),
             ];
         }
@@ -235,11 +233,11 @@ class AppController extends Controller
             ),
             new \CrudView\Menu\MenuItem(
                 'Profile',
-                ['plugin' => null, 'controller' => 'Users', 'action' => 'edit']
+                ['plugin' => 'Users', 'controller' => 'Users', 'action' => 'edit']
             ),
             new \CrudView\Menu\MenuItem(
                 'Log Out',
-                ['plugin' => null, 'controller' => 'Users', 'action' => 'logout']
+                ['plugin' => 'Users', 'controller' => 'Users', 'action' => 'logout']
             )
         ];
     }

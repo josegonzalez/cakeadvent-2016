@@ -31,7 +31,8 @@
         "friendsofcake/crud-users": "0.*",
         "muffin/tokenize": "^1.0@dev",
         "stripe/stripe-php": "5.*",
-        "admad/cakephp-glide": "^3.0"
+        "admad/cakephp-glide": "^3.0",
+        "josegonzalez/cakephp-users": "dev-master"
     },
     "require-dev": {
         "psy/psysh": "@stable",

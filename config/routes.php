@@ -8,10 +8,16 @@ Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/', ['controller' => 'Posts', 'action' => 'home']);
-    $routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
-    $routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
-    $routes->connect('/forgot-password', ['controller' => 'Users', 'action' => 'forgotPassword']);
-    $routes->connect('/reset-password/*', ['controller' => 'Users', 'action' => 'resetPassword']);
+
+    $usersRoutes = [
+        'login' => '/login',
+        'logout' => '/logout',
+        'forgotPassword' => '/forgot-password',
+        'resetPassword' => '/reset-password/*',
+    ];
+    foreach ($usersRoutes as $action => $route) {
+        $routes->connect($route, ['plugin' => 'Users', 'controller' => 'Users', 'action' => $action]);
+    }
     $routes->connect(
         '/:url',
         ['controller' => 'Posts', 'action' => 'view'],
@@ -20,6 +26,11 @@ Router::scope('/', function (RouteBuilder $routes) {
 });
 
 Router::scope('/admin', function (RouteBuilder $routes) {
+    $routes->redirect(
+        '/',
+        ['controller' => 'Posts', 'action' => 'index']
+    );
+
     $routes->scope('/posts', ['controller' => 'Posts'], function (RouteBuilder $routes) {
         $routes->connect('/', ['action' => 'index']);
         $routes->fallbacks();

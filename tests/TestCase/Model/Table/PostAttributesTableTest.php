@@ -24,9 +24,9 @@ class PostAttributesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
+        'plugin.Users.users',
         'app.post_attributes',
         'app.posts',
-        'app.users'
     ];
 
     /**
